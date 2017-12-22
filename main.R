@@ -69,7 +69,7 @@ multiScore <- function(formula, data = NULL,label_names = label_names){
 }
 
 # set.seed(306)
-# dat <- as.data.frame(matrix(round(runif(240, -10, 10), digits = 2), ncol = 8))
+# dat <- as.data.frame(matrix(runif(240, -10, 10), ncol = 8))
 # colnames(dat) <- c("Y", "x1", "x2","x3","x4","x5","x6","x7")
 # label_names <- list(X1=c("x1","x2","x3"),X2=c("x4","x5","x6","x7"))
 # 
@@ -81,3 +81,70 @@ multiScore <- function(formula, data = NULL,label_names = label_names){
 # summary(mdscore(fit, x99))
 
 # Step 3: Implement the bootstrap testing procedure using Score test statistic.
+# genarate original data, from which we conduct bootstrap resampling
+originalData <- function(X1_mean, X1_sd, X2_mean, X2_sd, size, label_names = label_names, beta_int=0){
+  X1 <- matrix(rnorm(size*length(label_names[[1]]), X1_mean, X1_sd), ncol = length(label_names[[1]]))
+  X2 <- matrix(rnorm(size*length(label_names[[2]]), X2_mean, X2_sd), ncol = length(label_names[[2]]))
+  beta1 <- runif(length(label_names[[1]]), 2, 5)
+  beta2 <- runif(length(label_names[[2]]), 1, 3)
+  if(beta_int!=0){
+    X_int <- NULL
+    for (i in 1:length(label_names[[1]])){
+      X_int <- cbind(X_int, X1[,i]*X2)
+    }
+    X <- cbind(rep(1,size), X1, X2, X_int)
+    beta <- t(cbind(2,t(beta1),t(beta2),t(rep(beta_int, length(label_names[[1]])*length(label_names[[2]])))))
+    Y <- X%*%beta + rnorm(size, 0, 1)
+    data <- as.data.frame(cbind(Y,X1,X2,X_int))
+    name_int <- NULL
+    for (i in label_names[[1]]){
+      for (j in label_names[[2]]){
+        name_int <- c(name_int, paste0(i,"*",j))
+      }
+    }
+    colnames(data) <- c("Y", label_names[[1]],label_names[[2]],name_int)
+  }
+  else{
+    X <- cbind(rep(1,size), X1, X2)
+    beta <- t(cbind(2,t(beta1),t(beta2)))
+    Y <- X%*%beta + rnorm(size, 0, 1)
+    data <- as.data.frame(cbind(Y,X1,X2))
+    colnames(data) <- c("Y", label_names[[1]],label_names[[2]])
+  }
+  return(data)
+}
+# rawData <- originalData(2,2,0,1,100,label_names = label_names)
+# rawData2 <- originalData(2,2,0,1,100,label_names = label_names,beta_int = .1)
+
+linearBoot <- function(formula, data = NULL,label_names = label_names, B=100){
+  coef <- linearReg(formula,data=data,label_names=label_names)$beta
+  sd <- linearReg(formula,data=data,label_names=label_names)$se
+  n <- dim(data)[1]
+  inds <- 1:n
+  bs_test <- NULL
+  for (j in 1:B){
+    bs_ind <- sample(inds, size = n, replace = T)
+    dat <- data[bs_ind,-1]
+    dat <- cbind(rep(1,n),dat)
+    Y <- as.matrix(dat)%*%coef + rnorm(n, 0, sd)
+    dat <- cbind(Y,dat[,-1])
+    bs_test <- c(bs_test, multiScore(Y~X1+X2+X1*X2,data=dat,label_names=label_names)$test.stat)
+  }
+  original_test <- multiScore(Y~X1+X2+X1*X2,data=data,label_names=label_names)$test.stat
+  bs_pvalue <- sum(as.numeric(original_test)<=bs_test)/B
+  return(bs_pvalue)
+}
+
+
+repeatBoot <- function(formula, label_names = label_names, B=100, M=200){
+  pvalue <- NULL
+  for (i in 1:M){
+    rawData <- originalData(0,1,0,1,100,label_names)
+    pvalue <- c(pvalue, linearBoot(formula, data = rawData, label_names = label_names, B=B))
+  }
+  prob <- sum(pvalue<0.05)/M
+  return(prob)
+}
+
+label_names <- list(X1=c("x1","x2","x3"),X2=c("x4","x5","x6","x7"))
+prob <- repeatBoot(Y~X1+X2, label_names = label_names, B=400, M=200)
