@@ -94,23 +94,14 @@ originalData <- function(X1_mean, X1_sd, X2_mean, X2_sd, size, label_names = lab
     }
     X <- cbind(rep(1,size), X1, X2, X_int)
     beta <- t(cbind(2,t(beta1),t(beta2),t(rep(beta_int, length(label_names[[1]])*length(label_names[[2]])))))
-    Y <- X%*%beta + rnorm(size, 0, 1)
-    data <- as.data.frame(cbind(Y,X1,X2,X_int))
-    name_int <- NULL
-    for (i in label_names[[1]]){
-      for (j in label_names[[2]]){
-        name_int <- c(name_int, paste0(i,"*",j))
-      }
-    }
-    colnames(data) <- c("Y", label_names[[1]],label_names[[2]],name_int)
   }
   else{
     X <- cbind(rep(1,size), X1, X2)
     beta <- t(cbind(2,t(beta1),t(beta2)))
-    Y <- X%*%beta + rnorm(size, 0, 1)
-    data <- as.data.frame(cbind(Y,X1,X2))
-    colnames(data) <- c("Y", label_names[[1]],label_names[[2]])
   }
+  Y <- X%*%beta + rnorm(size, 0, 1)
+  data <- as.data.frame(cbind(Y,X1,X2))
+  colnames(data) <- c("Y", label_names[[1]],label_names[[2]])
   return(data)
 }
 # rawData <- originalData(2,2,0,1,100,label_names = label_names)
@@ -136,15 +127,42 @@ linearBoot <- function(formula, data = NULL,label_names = label_names, B=100){
 }
 
 
-repeatBoot <- function(formula, label_names = label_names, B=100, M=200){
+repeatBoot <- function(formula, label_names = label_names,beta=0, n, B=100, M=200){
   pvalue <- NULL
   for (i in 1:M){
-    rawData <- originalData(0,1,0,1,100,label_names)
+    rawData <- originalData(0,1,0,1,size=n,label_names, beta_int=beta)
     pvalue <- c(pvalue, linearBoot(formula, data = rawData, label_names = label_names, B=B))
   }
   prob <- sum(pvalue<0.05)/M
   return(prob)
 }
 
-label_names <- list(X1=c("x1","x2","x3"),X2=c("x4","x5","x6","x7"))
-prob <- repeatBoot(Y~X1+X2, label_names = label_names, B=400, M=200)
+label_names <- list(X1=c("x1","x2"),X2=c("x3","x4"))
+
+# for (MM in seq(200, 1000, 100)){
+#   for (nn in seq(100, 1000, 100)){
+#     prob <- repeatBoot(Y~X1+X2, label_names = label_names, n=nn, B=500, M=MM)
+#   }
+#   print(MM,nn,prob)
+# }
+# 
+# for (MM in seq(200, 1000, 100)){
+#   for (nn in seq(100, 1000, 100)){
+#     prob <- repeatBoot(Y~X1+X2, label_names = label_names, n=nn, B=1000, M=MM)
+#   }
+#   print(MM,nn,prob)
+# }
+
+for (b in seq(0, 10, 0.1)){
+  for (nn in seq(100, 1000, 100)){
+    prob <- repeatBoot(Y~X1+X2, label_names = label_names, beta=b,n=nn, B=500, M=200)
+  }
+  print(b,nn,prob)
+}
+
+for (b in seq(0, 10, 0.1)){
+  for (nn in seq(100, 1000, 100)){
+    prob <- repeatBoot(Y~X1+X2, label_names = label_names, beta=b,n=nn, B=1000, M=200)
+  }
+  print(b,nn,prob)
+}
