@@ -112,15 +112,14 @@ linearBoot <- function(formula, data = NULL,label_names = label_names, B=100){
   sd <- linearReg(formula,data=data,label_names=label_names)$se
   n <- dim(data)[1]
   inds <- 1:n
-  bs_test <- NULL
-  for (j in 1:B){
+  bs_test <- sapply(1:B, function(k){
     bs_ind <- sample(inds, size = n, replace = T)
     dat <- data[bs_ind,-1]
-    dat <- cbind(rep(1,n),dat)
+    dat <- cbind(1,dat)
     Y <- as.matrix(dat)%*%coef + rnorm(n, 0, sd)
     dat <- cbind(Y,dat[,-1])
-    bs_test <- c(bs_test, multiScore(Y~X1+X2+X1*X2,data=dat,label_names=label_names)$test.stat)
-  }
+    multiScore(Y~X1+X2+X1*X2,data=dat,label_names=label_names)$test.stat
+  })
   original_test <- multiScore(Y~X1+X2+X1*X2,data=data,label_names=label_names)$test.stat
   bs_pvalue <- sum(as.numeric(original_test)<=bs_test)/B
   return(bs_pvalue)
@@ -128,11 +127,10 @@ linearBoot <- function(formula, data = NULL,label_names = label_names, B=100){
 
 
 repeatBoot <- function(formula, label_names = label_names,beta=0, n, B=100, M=200){
-  pvalue <- NULL
-  for (i in 1:M){
+  pvalue <- sapply(1:M, function(k){
     rawData <- originalData(0,1,0,1,size=n,label_names, beta_int=beta)
-    pvalue <- c(pvalue, linearBoot(formula, data = rawData, label_names = label_names, B=B))
-  }
+    linearBoot(formula, data = rawData, label_names = label_names, B=B)
+  })
   prob <- sum(pvalue<0.05)/M
   return(prob)
 }
@@ -142,27 +140,36 @@ label_names <- list(X1=c("x1","x2"),X2=c("x3","x4"))
 # for (MM in seq(200, 1000, 100)){
 #   for (nn in seq(100, 1000, 100)){
 #     prob <- repeatBoot(Y~X1+X2, label_names = label_names, n=nn, B=500, M=MM)
+#     print(c(MM,nn,prob))
 #   }
-#   print(MM,nn,prob)
 # }
 # 
 # for (MM in seq(200, 1000, 100)){
 #   for (nn in seq(100, 1000, 100)){
 #     prob <- repeatBoot(Y~X1+X2, label_names = label_names, n=nn, B=1000, M=MM)
+#     print(c(MM,nn,prob))
 #   }
-#   print(MM,nn,prob)
 # }
-
-for (b in seq(0, 10, 0.1)){
-  for (nn in seq(100, 1000, 100)){
-    prob <- repeatBoot(Y~X1+X2, label_names = label_names, beta=b,n=nn, B=500, M=200)
-  }
-  print(b,nn,prob)
-}
-
-for (b in seq(0, 10, 0.1)){
-  for (nn in seq(100, 1000, 100)){
-    prob <- repeatBoot(Y~X1+X2, label_names = label_names, beta=b,n=nn, B=1000, M=200)
-  }
-  print(b,nn,prob)
-}
+# 
+# for (b in seq(0, 10, 0.1)){
+#   for (nn in seq(100, 1000, 100)){
+#     prob <- repeatBoot(Y~X1+X2, label_names = label_names, beta=b,n=nn, B=500, M=200)
+#     print(c(b,nn,prob))
+#   }
+# }
+# 
+# for (b in seq(0, 10, 0.1)){
+#   for (nn in seq(100, 1000, 100)){
+#     prob <- repeatBoot(Y~X1+X2, label_names = label_names, beta=b,n=nn, B=1000, M=200)
+#     print(c(b,nn,prob))
+#   }
+# }
+# 
+# # see the difference between bootstrap pvalue and Score test pvalue
+# for (b in seq(0, 5, 0.1)){
+#   for (nn in seq(100, 1000, 100)){
+#     rawData <- originalData(0,1,0,1,size=nn,label_names, beta_int=b)
+#     pvalue <- multiScore(Y~X1+X2+X1*X2,data=rawData,label_names=label_names)$p.value
+#     print(c(b,nn,pvalue))
+#   }
+# }
