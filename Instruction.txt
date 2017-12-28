@@ -1,0 +1,11 @@
+Code: 
+main.R
+
+P-value test in high-signal, low-noise: 
+simulation2_high_effect.csv
+
+Plot similar to the CVEK paper, different effect size, n and B: 
+simulation2_result.txt
+
+Plot:
+Figure1.docx
