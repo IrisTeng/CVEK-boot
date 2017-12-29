@@ -349,7 +349,8 @@ file$effect_ind <- factor(file$effect_ind, levels = 1:3,
 file$B <- factor(file$B, labels = c('B=200','B=500','B=1000'))
 file$n <- as.factor(file$n)
 p <- ggplot(data = file, aes(x=beta_int, y=prob, shape=n, color=n))+
-  geom_line()+geom_hline(yintercept=0.05)+facet_grid(effect_ind~B)+
+  geom_point(size=0.8)+geom_line()+
+  geom_hline(yintercept=0.05)+facet_grid(effect_ind~B)+
   labs(x='beta interaction', y='probability')+
   theme_set(theme_bw())+theme(panel.grid=element_blank())
 p
