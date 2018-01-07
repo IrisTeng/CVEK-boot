@@ -101,8 +101,8 @@ lmRidge <-
     
     #vector of GCV values
     GCV <- sapply(lambda, function(k){
-      A <- X%*%solve((t(X)%*%X+n*k*diag(p)))%*%t(X)
-      n*(sum(((diag(n)-A)%*%Y)^2)/(tr(diag(n)-A))^2)
+      A <- X%*%solve((t(X)%*%X+k*diag(p)))%*%t(X)
+      (sum(((diag(n)-A)%*%Y)^2)/(tr(diag(n)-A))^2)
     })
     
     # calculate coefficients
@@ -118,13 +118,13 @@ lmRidge <-
   }
 
 # library(MASS)
-# test1, consistent
+# #test1, consistent
 # label_names <- list(X1=c("x1","x2"),X2=c("x3","x4"))
-# rawData <- originalData(2,5,1,3,20,label_names = label_names)
-# ridge0 <- lmRidge(Y~X1+X2,data=rawData,lambda = seq(0, 1, .1),label_names=label_names)
-# ridge_test <- lm.ridge (Y ~ x1+x2+x3+x4, lambda = seq(0, 1, .1), data=rawData)
-
-# test2, inconsistent at the beginning
+# rawData <- originalData(2,5,1,3,20,label_names = label_names,beta_int=0.1,scale=10,eps=1)
+# ridge0 <- lmRidge(Y~X1+X2,data=rawData,lambda = seq(0, 1, .01),label_names=label_names)
+# ridge_test <- lm.ridge (Y ~ x1+x2+x3+x4, lambda = seq(0, 1, .01), data=rawData)
+# 
+# #test2, inconsistent at the beginning
 # N <- 20
 # x1 <- runif(n=N)
 # x2 <- runif(n=N)
@@ -133,8 +133,8 @@ lmRidge <-
 # ep <- rnorm(n=N)
 # y <- x1 + x2 + ep
 # data0 <- as.data.frame(cbind(y,x1,x2,x3,x4))
-# ridge1 <- lmRidge(y~X1+X2,data=data0,lambda = seq(0, .1, .01),label_names=label_names)
-# ridge2 <- lm.ridge (y ~ x1+x2+x3+x4, lambda = seq(0, .1, .01))
+# ridge1 <- lmRidge(y~X1+X2,data=data0,lambda = seq(0, 100, 1),label_names=label_names)
+# ridge2 <- lm.ridge (y ~ x1+x2+x3+x4, lambda = seq(0, 100, 1))
 
 
 # Step 2: Derive score test for multivariate interaction term. Implement in R. 
@@ -178,11 +178,11 @@ multiScore <-
 # Step 3: Implement the bootstrap testing procedure using Score test statistic.
 # genarate original data, from which we conduct bootstrap resampling
 originalData <- 
-  function(b1_l=2, b1_u=5, b2_l=1, b2_u=3, size, label_names = label_names, beta_int=0, eps=0.1){
+  function(b1_l=2, b1_u=5, b2_l=1, b2_u=3, size, label_names = label_names, beta_int=0, scale=1,eps=0.1){
     X1 <- matrix(rnorm(size*length(label_names[[1]]), 0, 1), ncol = length(label_names[[1]]))
     X2 <- matrix(rnorm(size*length(label_names[[2]]), 0, 1), ncol = length(label_names[[2]]))
-    beta1 <- runif(length(label_names[[1]]), b1_l, b1_u)*10
-    beta2 <- runif(length(label_names[[2]]), b2_l, b2_u)*10
+    beta1 <- runif(length(label_names[[1]]), b1_l, b1_u)*scale
+    beta2 <- runif(length(label_names[[2]]), b2_l, b2_u)*scale
     if(beta_int!=0){
       X_int <- NULL
       for (i in 1:length(label_names[[1]])){
@@ -230,7 +230,7 @@ linearBoot <-
 # conduct bootstrap for ridge regression
 ridgeBoot <- 
   function(formula, data = NULL,label_names = label_names,
-           lambda = seq(0, 1, .1), B=100){
+           lambda = seq(0, 1, .01), B=100){
     coef <- lmRidge(formula,data=data,lambda = lambda,label_names=label_names)$beta
     sd <- lmRidge(formula,data=data,lambda = lambda,label_names=label_names)$se
     n <- dim(data)[1]
@@ -252,6 +252,7 @@ ridgeBoot <-
     return(bs_pvalue)
   }
 
+
 # Rerun p-value test in high-signal (i.e. large effect size) 
 # low-noise (low variance for residual term, e.g. 0.01) scenario. 
 # In order to verify result is correct.
@@ -259,98 +260,122 @@ ridgeBoot <-
 verify <- 
   function(i){
     # pvalue <- sapply(1:1000, function(k){
-    rawData <- originalData(b11,b12,b21,b22,size=n,label_names, beta_int=beta_int,eps=e)
-    pvalue <- linearBoot(formula, data = rawData, label_names = label_names, B=B)
+    rawData <- originalData(2,5,1,3,size=n,label_names, beta_int=beta_int,scale=scale,eps=e)
+    linear_pvalue <- linearBoot(formula, data = rawData, label_names = label_names, B=B)
+    ridge_pvalue <- ridgeBoot(formula, data = rawData, 
+                              label_names = label_names, lambda = seq(0, 1, .01),B=B)
     # })
     # prob <- sum(pvalue<0.05)/M
     # return(prob)
-    return(pvalue)
+    return(c(linear_pvalue,ridge_pvalue))
   }
 
-library(snowfall)
-sfInit(parallel=T,cpus=20)
-formula <- Y~X1+X2
-label_names <- list(X1=c("x1","x2"),X2=c("x3","x4"))
-result <- NULL
-for(B in c(1000)){
-  for (M in c(1000)){
-    for (n in c(200)){
-      for(beta_int in c(0)){
-        for(b11 in seq(2,10,2)){
-          for (e in seq(0.01,0.09,0.02)) {
-            b12 <- b11+3
-            b21 <- b11-1
-            b22 <- b21+2
-            sfExport("formula","label_names","n","B","M","beta_int",
-                     "b11","b12","b21","b22","e","linearBoot",
-                     "originalData","generic_formula","linearReg","multiScore")
-            system.time(res <- sfSapply(1:M,verify))
-            write.table(t(res),
-                        file="simulation_high_effect.txt",
-                        row.names=F,col.names=F,append=T)
-            res2 <- sum(res<0.05)/M
-            result <- rbind(result,c(B,M,n,beta_int,b11,b12,b21,b22,e,res2))
-            cat(c(B,M,n,beta_int,b11,b12,b21,b22,e,res2),
-                file="simulation2_high_effect.txt",append=T,"\n")
-            cat("Finished:B=",B," M=",M,"n=",n,"beta_int=",beta_int,"\n")
-          }
-        }
-      }
-    }
-  }
-}
-write.csv(result,file="simulation2_high_effect.csv",row.names = F,quote = F)
+# verify_linear <- 
+#   function(i){
+#     # pvalue <- sapply(1:1000, function(k){
+#     rawData <- originalData(2,5,1,3,size=n,label_names, beta_int=beta_int,eps=e)
+#     pvalue <- linearBoot(formula, data = rawData, 
+#                        label_names = label_names, B=B)
+#     # })
+#     # prob <- sum(pvalue<0.05)/M
+#     # return(prob)
+#     return(pvalue)
+#   }
 
+# library(snowfall)
+# sfInit(parallel=T,cpus=20)
+# formula <- Y~X1+X2
+# label_names <- list(X1=c("x1","x2"),X2=c("x3","x4"))
+# result <- NULL
+# for(B in c(1000)){
+#   for (M in c(1000)){
+#     for (n in c(200)){
+#       for(beta_int in c(0)){
+#         for(b11 in seq(2,10,2)){
+#           for (e in seq(0.01,0.09,0.02)) {
+#             b12 <- b11+3
+#             b21 <- b11-1
+#             b22 <- b21+2
+#             sfExport("formula","label_names","n","B","M","beta_int",
+#                      "b11","b12","b21","b22","e","linearBoot","ridgeBoot",
+#                      "originalData","generic_formula","linearReg","lmRidge",
+#                      "multiScore")
+#             system.time(res <- sfSapply(1:M,verify_linear))
+#             write.table(t(res),
+#                         file="simulation_pvalue.txt",
+#                         row.names=F,col.names=F,append=T)
+#             res2 <- apply(res,1,function(x){sum(x<0.05)/M})
+#             result <- rbind(result,c(B,M,n,beta_int,b11,b12,b21,b22,e,res2))
+#             cat(c(B,M,n,beta_int,b11,b12,b21,b22,e,res2),
+#                 file="simulation_type1.txt",append=T,"\n")
+#             cat("Finished:B=",B," M=",M,"n=",n,"beta_int=",beta_int,"\n")
+#           }
+#         }
+#       }
+#     }
+#   }
+# }
+# write.csv(result,file="simulation_type1.csv",row.names = F,quote = F)
 
 # produce plot similar to the CVEK paper. 
 # (x-axis: interaction effect size, y-axis: ratio of p-value smaller than 0.05). 
-# Try different (1) main-effect size, (2) sample size. (3) Bootstrap sample. 
-# number of repetition fix at 1000. M=1000, e=0.05
+# vary the interaction effect size between seq(0, 0.1, 0.02), 
+# vary the effect size multiplication factor within  (1, 3, 5, 10), 
+# vary the noise level within (0.05, 0.1, 0.25, 0.5, 1). 
+# Keep bootstrap sample size at 200. Keep b11 = 2 (lower bound of effect size).
+# number of repetition M fix at 1000.
+# Repeat such experiment for linear and ridge regression.
 library(snowfall)
 sfInit(parallel=T,cpus=20)
 formula <- Y~X1+X2
 label_names <- list(X1=c("x1","x2"),X2=c("x3","x4"))
 result <- NULL
 for (M in c(1000)){
-  for (e in c(0.05)){
-    for(beta_int in seq(0,0.01,0.001)){
-      for(b11 in c(2,5,10)){
+  for (e in c(0.05,0.1,0.25,0.5,1)){
+    for(beta_int in seq(0,0.1,0.02)){
+      for(scale in c(1,3,5,10)){
         for(n in seq(200,1000,200)){
-          for (B in c(200,500,1000)){
-            b12 <- b11+3
-            b21 <- b11-1
-            b22 <- b21+2
-            sfExport("formula","label_names","beta_int","b11","b12","b21","b22",
-                     "n","B","M","e","linearBoot","originalData",
-                     "generic_formula","linearReg","multiScore") 
+          for (B in c(200)){
+            sfExport("formula","label_names","beta_int",
+                     "n","B","M","scale","e","ridgeBoot","linearBoot","originalData",
+                     "generic_formula","lmRidge","linearReg","multiScore") 
             system.time(res <- sfSapply(1:M,verify))
-            write.table(t(res),file="simulation_result.txt",
+            write.table(t(res),file="simulation_power_pvalue.txt",
                         row.names=F,col.names=F,append=T)            
-            res2 <- sum(res<0.05)/M
-            result <- rbind(result,c(beta_int,b11,b12,b21,b22,n,B,res2))
-            cat(c(beta_int,b11,b12,b21,b22,n,B,res2),
-                file="simulation2_result.txt",append=T,"\n")
-            cat("Finished:effect size=",c(b11,b12,b21,b22)*10,"n=",n,"B=",B,"\n")
+            res2 <- apply(res,1,function(x){sum(x<0.05)/M})
+            result <- rbind(result,c(beta_int,c(2,5,1,3)*scale,e,n,res2))
+            cat(c(beta_int,c(2,5,1,3)*scale,e,n,res2),
+                file="simulation_power.txt",append=T,"\n")
+            cat("Finished:effect size=",c(2,5,1,3)*scale,"n=",n,"e=",e,"\n")
           }
         }
       }
     }
   }
 }
-write.csv(result,file="simulation2_result.csv",row.names = F,quote = F)
+write.csv(result,file="simulation_power.csv",row.names = F,quote = F)
 
 # plot
-file <- read.table(file="/Users/iristeng/Desktop/simulation2_result.txt")
-colnames(file) <- c('beta_int','b11','b12','b21','b22','n','B','prob')
-file$effect_ind <- ifelse(file$b11==2,1,ifelse(file$b11==5,2,3))
+file <- read.csv(file="/Users/iristeng/Desktop/simulation_power.csv")
+#colnames(file) <- c('beta_int','b11','b12','b21','b22','n','B','prob')
+file$effect_ind <- ifelse(file$b11==2,1,
+                          ifelse(file$b11==6,2,ifelse(file$b11==10,3,4)))
 library(ggplot2)
-file$effect_ind <- factor(file$effect_ind, levels = 1:3,
-                          labels = c('effect size1','effect size2','effect size3'))
-file$B <- factor(file$B, labels = c('B=200','B=500','B=1000'))
+file$effect_ind <- factor(file$effect_ind, levels = 1:4,
+                          labels = c('effect size1','effect size2',
+                                     'effect size3','effect size4'))
+file$e <- factor(file$e, labels = c('e=0.05','e=0.10','e=0.25','e=0.50','e=1.00'))
 file$n <- as.factor(file$n)
-p <- ggplot(data = file, aes(x=beta_int, y=prob, shape=n, color=n))+
+p <- ggplot(data = file, aes(x=beta_int, y=linear, shape=n, color=n))+
   geom_point(size=0.8)+geom_line()+
-  geom_hline(yintercept=0.05)+facet_grid(effect_ind~B)+
+  geom_hline(yintercept=0.05)+facet_grid(effect_ind~e)+
   labs(x='beta interaction', y='probability')+
   theme_set(theme_bw())+theme(panel.grid=element_blank())
 p
+
+q <- ggplot(data = file, aes(x=beta_int, y=ridge, shape=n, color=n))+
+  geom_point(size=0.8)+geom_line()+
+  geom_hline(yintercept=0.05)+facet_grid(effect_ind~e)+
+  labs(x='beta interaction', y='probability')+
+  theme_set(theme_bw())+theme(panel.grid=element_blank())
+q
