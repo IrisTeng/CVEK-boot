@@ -59,7 +59,7 @@ linearReg <-
     se <- sqrt(sum(residual^2)/(length(y)-dim(x)[2]))
     se.beta <- se*sqrt(diag(solve(t(x)%*%x)))
     t.value <- as.vector(beta/se.beta)
-    p.value <- 2*pnorm(abs(t.value), lower.tail = F)
+    p.value <- 2*pt(abs(t.value), length(y)-dim(x)[2], lower.tail = F)
     
     # result
     ret <- list(beta=as.vector(beta), 
@@ -99,14 +99,20 @@ lmRidge <-
     Xscale <- drop(rep(1/n, n) %*% X^2)^0.5
     X <- X/rep(Xscale, rep(n, p))
     
-    #vector of GCV values
-    GCV <- sapply(lambda, function(k){
+    # vector of GCV values
+    # GCV <- sapply(lambda, function(k){
+    #   A <- X%*%solve((t(X)%*%X+k*diag(p)))%*%t(X)
+    #   (sum(((diag(n)-A)%*%Y)^2)/(tr(diag(n)-A))^2)
+    # })
+    
+    Loocv <- sapply(lambda, function(k){
       A <- X%*%solve((t(X)%*%X+k*diag(p)))%*%t(X)
-      (sum(((diag(n)-A)%*%Y)^2)/(tr(diag(n)-A))^2)
+      sum(((diag(n)-A)%*%Y/diag(diag(n)-A))^2)
     })
     
     # calculate coefficients
-    lambda0 <- lambda[which(GCV==min(GCV))]
+    # lambda0 <- lambda[which(GCV==min(GCV))]
+    lambda0 <- lambda[which(Loocv==min(Loocv))]
     beta <- solve(t(X)%*%X+lambda0*diag(p))%*%t(X)%*%Y/Xscale
     inte <- Ym-Xm%*%beta
     residual <- Y-X%*%beta
@@ -118,13 +124,13 @@ lmRidge <-
   }
 
 # library(MASS)
-# #test1, consistent
+# test1, consistent
 # label_names <- list(X1=c("x1","x2"),X2=c("x3","x4"))
 # rawData <- originalData(2,5,1,3,20,label_names = label_names,beta_int=0.1,scale=10,eps=1)
 # ridge0 <- lmRidge(Y~X1+X2,data=rawData,lambda = seq(0, 1, .01),label_names=label_names)
 # ridge_test <- lm.ridge (Y ~ x1+x2+x3+x4, lambda = seq(0, 1, .01), data=rawData)
 # 
-# #test2, inconsistent at the beginning
+# test2, inconsistent at the beginning
 # N <- 20
 # x1 <- runif(n=N)
 # x2 <- runif(n=N)
