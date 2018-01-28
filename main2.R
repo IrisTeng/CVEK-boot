@@ -71,8 +71,8 @@ originalData2 <-
     }
     
     if(method=="linear")
-      SE <- function(xp,xq,l) t(xp)%*%xq
-    else if(method=="gaussian")
+      SE <- function(xp, xq, l) t(xp) %*% xq
+    else if (method=="gaussian")
       SE <- function(xp,xq,l) exp(-sum((xp-xq)^2)/(2*l^2))
     else
       stop("method must be linear or gaussian")

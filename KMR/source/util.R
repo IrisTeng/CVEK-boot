@@ -120,7 +120,8 @@ MultiScore2 <-
     X2 <- X[, c((length(label.names[[1]]) + 1):len)]
     X12 <- X[, c((len + 1):dim(X)[2])]
     
-    result <- gpr(Y ~ X1 + X2, label.names, data, method, l, lambda, null.hypo = F)
+    result <- gpr(Y ~ X1 + X2, label.names, data, method, l, lambda, 
+                  null.hypo = TRUE)
     sigma2.n <- result[[1]]
     beta0 <- result[[2]]
     
@@ -131,7 +132,15 @@ MultiScore2 <-
     K0 <- K1 + K2
     K12 <- X12 %*% t(X12)
     V0 <- K0 + sigma2.n * diag(n)
+    
     test.stat <- t(y - beta0) %*% ginv(V0) %*% K12 %*% ginv(V0) %*% (y - beta0)
+    
+    # Jeremiah: heuristic procedure for test statistic correction, 
+    # make sure to delete after adding estimation procedure for sigma
+    sigma_true <- 0.1
+    tau_true <- sigma_true/sigma2.n
+    test.stat <- test.stat/tau_true
+    
     return(test.stat)
   }
 
@@ -194,17 +203,21 @@ KernelBoot <-
       X.star1 <- X.star[, c(1:length(label.names[[1]]))]
       X.star2 <- X.star[, c((length(label.names[[1]]) + 1):
                               (length(label.names[[1]]) + length(label.names[[2]])))]
-      K.star <- Kern(X.star1, X1) + Kern(X.star2, X2)
+      # Jeremiah: possibly need to fix the kernel definition
+      # K.star <- Kern(X.star1, X1) + Kern(X.star2, X2)
+      K.star <- (as.matrix(X.star1) %*% t(X1)) + (as.matrix(X.star2) %*% t(X2))
       mean.Y <- K.star %*% alpha + beta0
-      Y <- rnorm(n, mean = mean.Y, sd = sqrt(sigma2.n))
-      dat <- cbind(Y, X.star)
+      # Jeremiah: make sure to fix sd
+      Y.star <- mean.Y + rnorm(n, mean = 0, sd = sqrt(0.1)) 
+      dat <- cbind(Y=Y.star, X.star)
       MultiScore2(Y ~ X1 + X2 + X1 * X2, label.names, 
                   data = dat, method, l, lambda)
     })
     
     # assemble test statistic
-    original.test <- MultiScore2(Y ~ X1 + X2 + X1 * X2, label.names, 
-                                 data = data0, method, l, lambda)
+    original.test <- 
+      MultiScore2(Y ~ X1 + X2 + X1 * X2, label.names, 
+                  data = data0, method, l, lambda)
     
     bs.pvalue <- sum(as.numeric(original.test) <= bs.test) / B
     return(bs.pvalue)

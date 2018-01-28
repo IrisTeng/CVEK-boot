@@ -2,33 +2,43 @@ library(mvtnorm)
 library(MASS)
 library(snowfall)
 
-source('KernelGenerate.R')
-source('LooCV.R')
-source('gpr.R')
-source('util.R')
+source('./source/KernelGenerate.R')
+source('./source/LooCV.R')
+source('./source/gpr.R')
+source('./source/util.R')
 
-# n <- 50
-# formula <- Y ~ X1 + X2
-# label.names <- list(X1 = c("x1", "x2"), X2 = c("x3", "x4"))
-# rawData <- OriginalData2(size = n, label.names, 
-#                          method = "linear", int.effect = 0)
-# gpr(formula, label.names, rawData, "linear", l = 3, lambda = exp(seq(-5, 5, 1)))
-# linear.pvalue <- KernelBoot(formula, label.names, data = rawData, 
-#                             method = "linear", l=3, 
-#                             lambda = exp(seq(-5, 5, 1)), B = 100)
-# gaussian.pvalue <- KernelBoot(formula, label.names, data = rawData, 
-#                               method = "gaussian", l=3, 
-#                               lambda = exp(seq(-5, 5, 1)), B = 100)
+n <- 200
+formula <- Y ~ X1 + X2
+label.names <- list(X1 = c("x1", "x2"), X2 = c("x3", "x4"))
+rawData <- OriginalData2(size = n, label.names,
+                         method = "linear", int.effect = 0)
+res <- gpr(formula, label.names, rawData, "linear",
+           l = 3, lambda = exp(seq(-5, 5, 1)), null.hypo = TRUE)
+yhat <- res$intercept + res$K %*% res$alpha
+
+plot(rawData$Y, yhat)
+abline(a=0, b=1)
+
+linear.pvalue <- 
+  KernelBoot(formula, label.names, data = rawData,
+             method = "linear", l=3,
+             lambda = exp(seq(-5, 5, 1)), B = 100)
+
+gaussian.pvalue <- 
+  KernelBoot(formula, label.names, data = rawData,
+             method = "gaussian", l=3,
+             lambda = exp(seq(-5, 5, 1)), B = 100)
+
 verify <- 
   function(i){
     rawData <- OriginalData2(size = n, label.names, 
                              method = method, int.effect = int.effect)
-   linear.pvalue <- KernelBoot(formula, label.names, data = rawData,
-                               method = "linear", l=l,
-                               lambda = exp(seq(-5, 5, 1)), B = B)
-    gaussian.pvalue <- KernelBoot(formula, label.names, data = rawData, 
-                                method = "gaussian", l=l, 
+    linear.pvalue <- KernelBoot(formula, label.names, data = rawData,
+                                method = "linear", l=l,
                                 lambda = exp(seq(-5, 5, 1)), B = B)
+    gaussian.pvalue <- KernelBoot(formula, label.names, data = rawData, 
+                                  method = "gaussian", l=l, 
+                                  lambda = exp(seq(-5, 5, 1)), B = B)
     return(c(linear.pvalue,gaussian.pvalue))
   }
 

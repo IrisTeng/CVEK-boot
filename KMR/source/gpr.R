@@ -61,5 +61,5 @@ gpr <-
     # bb <- ginv(t(one) %*% (diag(n) - K %*% ginv(K + lambda0 * diag(n))) %*% one) %*% 
     #   (t(one) %*% (diag(n) - K %*% ginv(K + lambda0 * diag(n))) %*% y)
 
-    return(list(sigma2.n = lambda0, intercept = beta0, alpha = alpha))
+    return(list(sigma2.n = lambda0, intercept = beta0, alpha = alpha, K = K))
   }
