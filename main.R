@@ -151,7 +151,7 @@ multiScore <-
     y0 <- data[,as.character(attr(terms(formula),"variables"))[2]]
     generic_formula0=generic_formula(formula=formula,label_names = label_names)$generic_formula
     len <- generic_formula(formula=formula,label_names = label_names)$length_main_effect
-    x <- model.matrix(generic_formula0 ,data=data)
+    x <- model.matrix(generic_formula0, data=data)
     x_main <- x[,c(1:(len+1))]
     if(abs(det(t(x_main)%*%x_main))<1e-6)
       stop("X must be a non-singluar matrix")
