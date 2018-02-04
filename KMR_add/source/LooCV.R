@@ -13,12 +13,12 @@ LooCV <-
     
     # prepare data
     n <- nrow(K.mat)
-    
     # estimation
     CV <- sapply(lambda, function(k){
       A <- K.mat %*% ginv(K.mat + k * diag(n))
       sum(((diag(n) - A) %*% y / diag(diag(n) - A)) ^ 2)
     })
     lambda0 <- lambda[which(CV == min(CV))]
+    
     return(lambda0)
   }

@@ -78,8 +78,7 @@ OriginalData2 <-
     
     Kern <- KernelGenerate(method, l = 1)
     w1 <- rnorm(size)
-    # w2 <- rnorm(size)
-    w2 <- w1
+    w2 <- rnorm(size)
     w12 <- rnorm(size)
     Y <- Kern(X1, X1) %*% w1 + Kern(X2, X2) %*% w2 + 
       int.effect * (Kern(X1, X1) * Kern(X2, X2)) %*% w12 + 
@@ -90,7 +89,7 @@ OriginalData2 <-
   }
 
 
-NoiseEstimate <- function(y, lambda.hat, beta.hat, alpha.hat, K.hat){
+NoiseEstimate <- function(y, lambda.hat, beta.hat, alpha.hat, K1.hat, K2.hat){
   # An implementation of Gaussian processes for estimating noise.
   #
   # Args:
@@ -104,13 +103,16 @@ NoiseEstimate <- function(y, lambda.hat, beta.hat, alpha.hat, K.hat){
   # Returns:
   #   sigma2.hat: A numeric number indicating the estimated noise.
   
-  n <- nrow(K.hat)
-  V <- lambda.hat * diag(n) + K.hat
-  one <- rep(1, n)
+  n <- nrow(K1.hat)
+  alpha1.hat <- alpha.hat[1:n]
+  alpha2.hat <- alpha.hat[-(1:n)]
+  K.hat <- rbind(cbind(K1.hat, matrix(0,n,n)), cbind(matrix(0,n,n), K2.hat))
+  V <- lambda.hat * diag(2*n) + K.hat
+  one <- rep(1, 2*n)
   P.x <- one %*% ginv(t(one) %*% ginv(V) %*% one) %*% t(one) %*% ginv(V)
-  P.k <- K.hat %*% ginv(V) %*% (diag(n) - P.x)
+  P.k <- K.hat %*% ginv(V) %*% (diag(2*n) - P.x)
   A <- P.x + P.k
-  sigma2.hat <- sum((y - beta.hat - K.hat %*% alpha.hat) ^ 2) / (n - tr(A))
+  sigma2.hat <- sum((y - beta.hat - K1.hat %*% alpha1.hat- K2.hat %*% alpha2.hat) ^ 2)/(n - tr(A))
   return(sigma2.hat)
  }
 
@@ -148,8 +150,9 @@ MultiScore2 <-
     sigma2.n <- result[[1]]
     beta0 <- result[[2]]
     alpha0 <- result[[3]]
-    K.gpr <- result[[4]]
-    noise.hat <- NoiseEstimate(y, sigma2.n, beta0, alpha0, K.gpr)
+    K1.gpr <- result[[4]]
+    K2.gpr <- result[[5]]
+    noise.hat <- NoiseEstimate(y, sigma2.n, beta0, alpha0, K1.gpr, K2.gpr)
     
     # compute score statistic
     Kern <- KernelGenerate(method, l)
@@ -220,8 +223,9 @@ KernelBoot <-
     sigma2.n <- result[[1]]
     beta0 <- result[[2]]
     alpha0 <- result[[3]]
-    K.gpr <- result[[4]]
-    noise.hat <- NoiseEstimate(Y, sigma2.n, beta0, alpha0, K.gpr)
+    K1.gpr <- result[[4]]
+    K2.gpr <- result[[5]]
+    noise.hat <- NoiseEstimate(Y, sigma2.n, beta0, alpha0, K1.gpr, K2.gpr)
     Kern <- KernelGenerate(method, l)
     
     inds <- 1:n
@@ -234,9 +238,9 @@ KernelBoot <-
       X.star2 <- X.star[, c((length(label.names[[1]]) + 1):
                               (length(label.names[[1]]) + length(label.names[[2]])))]
       # Jeremiah: possibly need to fix the kernel definition
-      K.star <- Kern(X.star1, X1) + Kern(X.star2, X2)
+      # K.star <- Kern(X.star1, X1) + Kern(X.star2, X2)
       # K.star <- (as.matrix(X.star1) %*% t(X1)) + (as.matrix(X.star2) %*% t(X2))
-      mean.Y <- K.star %*% alpha0 + beta0
+      mean.Y <- Kern(X.star1, X1) %*% alpha0[1:n] + Kern(X.star2, X2) %*% alpha0[-(1:n)] + beta0
       # Jeremiah: make sure to fix sd
       Y.star <- mean.Y + rnorm(n, mean = 0, sd = sqrt(noise.hat)) 
       dat <- cbind(Y = Y.star, X.star)

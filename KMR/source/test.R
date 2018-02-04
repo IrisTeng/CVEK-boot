@@ -47,19 +47,20 @@ GprTest <-
     #   (t(one) %*% (diag(n) - K %*% ginv(K + lambda0 * diag(n))) %*% y)
     y.star <- K %*% alpha + beta0
     
-    return(list(sigma2.n = lambda0, intercept = beta0, alpha = alpha, y.hat = y.star))
+    return(list(sigma2.n = lambda0, intercept = beta0, alpha = alpha, y.hat = y.star, y=y, K=K))
   }
 
 
-#label_names <- list(X1=c("x1","x2"),X2=c("x3","x4"))
-#rawData <- originalData(2,5,1,3,20,label_names=label_names,beta_int=0.1,scale=10,eps=1)
+#label.names <- list(X1=c("x1","x2"),X2=c("x3","x4"))
+#rawData <- OriginalData2(2,5,1,3,20,label_names=label_names,beta_int=0.1,scale=10,eps=1)
 K0 <- GprTest(Y~X1+X2,label.names,data=rawData4,"gaussian",l=2)
+noise.hat <- NoiseEstimate(K0$y, K0$sigma2.n, K0$intercept, K0$alpha, K.hat=K0$K)
 
 gp <- gausspr(rawData4[,-1],rawData4[,1], kernel="rbfdot", 
-              kpar=list(sigma=1/8), fit=T,scaled=FALSE, var=0.6)
+              kpar=list(sigma=1/8), fit=T,scaled=FALSE, var=noise.hat)
 cbind(K0$y.hat,fitted(gp))
 
-rawData <- originalData2(20, label.names, "linear", int_effect = 0)
-rawData2 <- originalData2(20, label.names, "gaussian", int_effect = 0)
-rawData3 <- originalData2(20, label.names, "linear", int_effect = 20)
-rawData4 <- originalData2(20, label.names, "gaussian", int_effect = 20)
+rawData <- OriginalData2(20, label.names, "linear", int.effect = 0)
+rawData2 <- OriginalData2(20, label.names, "gaussian", int.effect = 0)
+rawData3 <- OriginalData2(20, label.names, "linear", int.effect = 20)
+rawData4 <- OriginalData2(20, label.names, "gaussian", int.effect = 20)

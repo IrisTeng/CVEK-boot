@@ -38,24 +38,34 @@ gpr <-
     if(null.hypo == T){
       X1 <- X[, c(1:length(label.names[[1]]))]
       X2 <- X[, c((length(label.names[[1]]) + 1):len)]
-      K <- Kern(X1, X1) + Kern(X2, X2)
-    }
-    else{
+      K1 <- Kern(X1, X1) 
+      K2 <- Kern(X2, X2)
+      K <- K1 + K2 
+      lambda0 <- LooCV(y, K, lambda)
+      
+      KK1 <- cbind(1, K1, K2)
+      # KK2 <- cbind(0, rbind(0, looCV[[1]] * K1, looCV[[2]] * K2))
+      KK2 <- cbind(0, rbind(0, cbind(K1, matrix(0,n,n)), cbind(matrix(0,n,n), K2)))
+      
+      theta <- ginv(lambda0 * KK2 + t(KK1) %*% KK1) %*% t(KK1) %*% y
+      beta0 <- theta[1]
+      alpha <- theta[-1]
+      # one <- rep(1, n)
+      # bb <- ginv(t(one) %*% (diag(n) - K %*% ginv(K + lambda0 * diag(n))) %*% one) %*% 
+      #   (t(one) %*% (diag(n) - K %*% ginv(K + lambda0 * diag(n))) %*% y)
+    }else{
       K <- Kern(X, X)
+      lambda0 <- LooCV(y, K, lambda)
+      
+      K1 <- cbind(1, K)
+      K2 <- cbind(0, rbind(0, K))
+      
+      theta <- ginv(lambda0 * K2 + t(K1) %*% K1) %*% t(K1) %*% y
+      beta0 <- theta[1]
+      alpha <- theta[-1]
+      # one <- rep(1, n)
+      # bb <- ginv(t(one) %*% (diag(n) - K %*% ginv(K + lambda0 * diag(n))) %*% one) %*% 
+      #   (t(one) %*% (diag(n) - K %*% ginv(K + lambda0 * diag(n))) %*% y)
     }
-
-    lambda0 <- LooCV(y, K, lambda)
-
-    K1 <- cbind(1, K)
-    K2 <- cbind(0, rbind(0, K))
-    
-    theta <- ginv(lambda0 * K2 + t(K1) %*% K1) %*% t(K1) %*% y
-    beta0 <- theta[1]
-    alpha <- theta[-1]
-    
-    # one <- rep(1, n)
-    # bb <- ginv(t(one) %*% (diag(n) - K %*% ginv(K + lambda0 * diag(n))) %*% one) %*% 
-    #   (t(one) %*% (diag(n) - K %*% ginv(K + lambda0 * diag(n))) %*% y)
-
-    return(list(sigma2.n = lambda0, intercept = beta0, alpha = alpha, K = K))
+    return(list(sigma2.n = lambda0, intercept = beta0, alpha = alpha, K1 = K1, K2=K2))
   }
