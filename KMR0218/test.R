@@ -33,6 +33,17 @@ GprTest <-
     Kern <- KernelGenerate(method, l)
     K <- Kern(X, X)
     
+    # # visualizaton playground
+    # x <- matrix(seq(-10, 10, 0.1), ncol = 1)
+    # K <- Kern(x, x)
+    # plot(x, y, type = "n", ylim = c(-5, 5))
+    # for (i in 1:10){
+    #   y <- K %*% rnorm(length(x))
+    #   lines(x, y, col = i)
+    # }
+    # #
+    
+    
     # lambda0 <- LooCV(formula, label.names, data, method, l, lambda)
     
     K1 <- cbind(1, K)

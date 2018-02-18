@@ -49,7 +49,7 @@ GenericFormula <-
 
 OriginalData2 <- 
   function(size, label.names, 
-           method = NULL, int.effect = 0, eps = 0.1){
+           method = NULL, int.effect = 0, eps = 0.01){
     # Generate original data.
     #
     # Args:
@@ -81,9 +81,34 @@ OriginalData2 <-
     # w2 <- rnorm(size)
     w2 <- w1
     w12 <- rnorm(size)
-    Y <- Kern(X1, X1) %*% w1 + Kern(X2, X2) %*% w2 + 
-      int.effect * (Kern(X1, X1) * Kern(X2, X2)) %*% w12 + 
-      rnorm(1) + rnorm(size, 0, eps)
+    K1 <- Kern(X1, X1)
+    K2 <- Kern(X2, X2)
+    h0 <- K1 %*% w1 + K2 %*% w2
+    h0 <- h0 / sqrt(sum(h0 ^ 2))
+    
+    h1.prime <- (K1 * K2) %*% w12
+    Ks <- svd(Kern(X1, X1) + Kern(X2, X2))
+    if(length(Ks$d / sum(Ks$d) > 0.001) > 0){
+      len <- length(Ks$d[Ks$d / sum(Ks$d) > 0.001])
+      # len <- length(Ks$d / sum(Ks$d) > 0.001)
+      U0 <- Ks$u[, 1:len]
+      h1.prime.hat <- fitted(lm(h1.prime ~ U0))
+      h1 <- h1.prime - h1.prime.hat
+      if(all(h1 == 0)){
+        stop("interaction term colinear with main-effect space")
+        h1 <- h1.prime
+        h1 <- h1 / sqrt(sum(h1 ^ 2))
+      }
+      else
+        h1 <- h1 / sqrt(sum(h1 ^ 2))
+    }
+    else{
+      stop("largest eigen value smaller than 0.001")
+      h1 <- h1.prime
+      h1 <- h1 / sqrt(sum(h1 ^ 2))
+    }
+  
+    Y <- h0 + int.effect * h1 + rnorm(1) + rnorm(size, 0, eps)
     data <- as.data.frame(cbind(Y, X1, X2))
     colnames(data) <- c("Y", label.names[[1]], label.names[[2]])
     return(data)
@@ -205,11 +230,11 @@ KernelBoot <-
     Ym <- mean(Y)
     p <- ncol(X)
     X <- X - rep(Xm, rep(n, p))
-    Y <- Y - Ym
+    # Y <- Y - Ym
     Xscale <- drop(rep(1 / n, n) %*% X ^ 2) ^ 0.5
     X <- X / rep(Xscale, rep(n, p))
-    Yscale <- drop(rep(1 / n, n) %*% Y ^ 2) ^ 0.5
-    Y <- Y / rep(Yscale, n)
+    # Yscale <- drop(rep(1 / n, n) %*% Y ^ 2) ^ 0.5
+    # Y <- Y / rep(Yscale, n)
     
     X1 <- X[, c(1:length(label.names[[1]]))]
     X2 <- X[, c((length(label.names[[1]]) + 1):
@@ -233,11 +258,10 @@ KernelBoot <-
       X.star1 <- X.star[, c(1:length(label.names[[1]]))]
       X.star2 <- X.star[, c((length(label.names[[1]]) + 1):
                               (length(label.names[[1]]) + length(label.names[[2]])))]
-      # Jeremiah: possibly need to fix the kernel definition
+
       K.star <- Kern(X.star1, X1) + Kern(X.star2, X2)
       # K.star <- (as.matrix(X.star1) %*% t(X1)) + (as.matrix(X.star2) %*% t(X2))
       mean.Y <- K.star %*% alpha0 + beta0
-      # Jeremiah: make sure to fix sd
       Y.star <- mean.Y + rnorm(n, mean = 0, sd = sqrt(noise.hat)) 
       dat <- cbind(Y = Y.star, X.star)
       MultiScore2(Y ~ X1 + X2 + X1 * X2, label.names, 

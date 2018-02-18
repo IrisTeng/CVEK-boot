@@ -8,35 +8,16 @@ source('./source/LooCV.R')
 source('./source/gpr.R')
 source('./source/util.R')
 
-n <- 200
-formula <- Y ~ X1 + X2
-label.names <- list(X1 = c("x1", "x2"), X2 = c("x3", "x4"))
-rawData <- OriginalData2(size = n, label.names,
-                         method = "linear", int.effect = 0)
-res <- gpr(formula, label.names, rawData, "linear",
-           l = 3, lambda = exp(seq(-5, 5, 1)), null.hypo = TRUE)
-yhat <- res$intercept + res$K %*% res$alpha
 
-plot(rawData$Y, yhat)
-abline(a=0, b=1)
-
-linear.pvalue <- 
-  KernelBoot(formula, label.names, data = rawData,
-             method = "linear", l=3,
-             lambda = exp(seq(-5, 5, 1)), B = 100)
-
-gaussian.pvalue <- 
-  KernelBoot(formula, label.names, data = rawData,
-             method = "gaussian", l=3,
-             lambda = exp(seq(-5, 5, 1)), B = 100)
 
 verify <- 
-  function(i){
+  function(temptemp){
     rawData <- OriginalData2(size = n, label.names, 
                              method = method, int.effect = int.effect)
-    linear.pvalue <- KernelBoot(formula, label.names, data = rawData,
-                                method = "linear", l=l,
-                                lambda = exp(seq(-5, 5, 1)), B = B)
+    #linear.pvalue <- KernelBoot(formula, label.names, data = rawData,
+    #                            method = "linear", l=l,
+    #                            lambda = exp(seq(-5, 5, 1)), B = B)
+	linear.pvalue <- 1
     gaussian.pvalue <- KernelBoot(formula, label.names, data = rawData, 
                                   method = "gaussian", l=l, 
                                   lambda = exp(seq(-5, 5, 1)), B = B)
@@ -55,23 +36,24 @@ verify <-
 sfInit(parallel = T, cpus = 20)
 sfLibrary(mvtnorm)
 sfLibrary(MASS)
-sfSource('KernelGenerate.R')
-sfSource('LooCV.R')
-sfSource('gpr.R')
-sfSource('util.R')
+sfLibrary(psych)
+sfSource('./source/KernelGenerate.R')
+sfSource('./source/LooCV.R')
+sfSource('./source/gpr.R')
+sfSource('./source/util.R')
 formula <- Y ~ X1 + X2
 label.names <- list(X1 = c("x1", "x2"), X2 = c("x3", "x4"))
 result <- NULL
-for(n in seq(50, 250, 50)){
+for(n in c(250,300,350,400,450,500)){
   for (M in c(200)){
-    for (method in c("linear", "gaussian")){
-      for(int.effect in seq(0, 0.5, 0.1)){
-        for(l in c(0.3, 0.6, 1, 3, 5)){
+    for (method in c("gaussian")){
+      for(int.effect in seq(0, 1, 0.1)){
+        for(l in 1){
           for (B in c(100)){
             sfExport("formula", "label.names", "int.effect",
                      "n", "B", "M", "l", "method", "KernelBoot", "OriginalData2",
                      "GenericFormula", "gpr", "MultiScore2") 
-            system.time(res <- sfSapply(1 : M, verify))
+            system.time(res <- sfSapply(1:M, verify))
             write.table(t(res), file = "simulation_power_pvalue.txt",
                         row.names = F, col.names = F, append = T)            
             res2 <- apply(res, 1, function(x){sum(x < 0.05) / M})
