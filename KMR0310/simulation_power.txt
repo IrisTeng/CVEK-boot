@@ -1,0 +1,77 @@
+dual No.Re 200 linear 0 0 0 
+dual No.Re 200 linear 0.05 0 0 
+dual No.Re 200 linear 0.1 0 0 
+dual No.Re 200 linear 0.15 0 0 
+dual No.Re 200 linear 0.2 0 0 
+dual No.Re 200 linear 0.25 0 0 
+dual No.Re 200 linear 0.3 0 0 
+dual No.Re 200 linear 0.35 0 0 
+dual No.Re 200 linear 0.4 0 0 
+dual No.Re 200 linear 0.45 0 0 
+dual No.Re 200 linear 0.5 0 0 
+dual No.Re 200 gaussian 0 0 0 
+dual No.Re 200 gaussian 0.05 0 0 
+dual No.Re 200 gaussian 0.1 0 0 
+dual No.Re 200 gaussian 0.15 0 0 
+dual No.Re 200 gaussian 0.2 0 0 
+dual No.Re 200 gaussian 0.25 0 0 
+dual No.Re 200 gaussian 0.3 0 0 
+dual No.Re 200 gaussian 0.35 0 0 
+dual No.Re 200 gaussian 0.4 0 0 
+dual No.Re 200 gaussian 0.45 0 0 
+dual No.Re 200 gaussian 0.5 0 0 
+dual No.Re 200 quadratic 0 0 0 
+dual No.Re 200 quadratic 0.05 0 0 
+dual No.Re 200 quadratic 0.1 0 0 
+dual No.Re 200 quadratic 0.15 0 0 
+dual No.Re 200 quadratic 0.2 0 0 
+dual No.Re 200 quadratic 0.25 0 0 
+dual No.Re 200 quadratic 0.3 0 0 
+dual No.Re 200 quadratic 0.35 0 0 
+dual No.Re 200 quadratic 0.4 0 0 
+dual No.Re 200 quadratic 0.45 0 0 
+dual No.Re 200 quadratic 0.5 0 0 
+dual Loocv.Re 200 linear 0 0.095 0.055 0.055 
+dual Loocv.Re 200 linear 0.05 0.36 0.655 0.625 
+dual Loocv.Re 200 linear 0.1 0.83 0.98 0.695 
+dual Loocv.Re 200 linear 0.15 0.93 0.995 0.735 
+dual Loocv.Re 200 linear 0.2 0.99 1 0.735 
+dual Loocv.Re 200 linear 0.25 1 1 0.68 
+dual Loocv.Re 200 linear 0.3 0.995 1 0.69 
+dual Loocv.Re 200 linear 0.35 1 1 0.745 
+dual Loocv.Re 200 linear 0.4 1 1 0.68 
+dual Loocv.Re 200 linear 0.45 1 1 0.64 
+dual Loocv.Re 200 linear 0.5 1 1 0.63 
+dual Loocv.Re 200 gaussian 0 0.12 0.045 0.115 
+dual Loocv.Re 200 gaussian 0.05 0.125 0.37 0.11 
+dual Loocv.Re 200 gaussian 0.1 0.185 0.7 0.235 
+dual Loocv.Re 200 gaussian 0.15 0.305 0.73 0.27 
+dual Loocv.Re 200 gaussian 0.2 0.34 0.75 0.315 
+dual Loocv.Re 200 gaussian 0.25 0.53 0.79 0.33 
+dual Loocv.Re 200 gaussian 0.3 0.575 0.81 0.345 
+dual Loocv.Re 200 gaussian 0.35 0.655 0.775 0.345 
+dual Loocv.Re 200 gaussian 0.4 0.725 0.8 0.365 
+dual Loocv.Re 200 gaussian 0.45 0.735 0.795 0.345 
+dual Loocv.Re 200 gaussian 0.5 0.76 0.76 0.375 
+dual Loocv.Re 200 quadratic 0 0.47 0.025 0.04 
+dual Loocv.Re 200 quadratic 0.05 0.48 0.12 0.3 
+dual Loocv.Re 200 quadratic 0.1 0.46 0.325 0.465 
+dual Loocv.Re 200 quadratic 0.15 0.535 0.51 0.565 
+dual Loocv.Re 200 quadratic 0.2 0.535 0.565 0.48 
+dual Loocv.Re 200 quadratic 0.25 0.64 0.645 0.485 
+dual Loocv.Re 200 quadratic 0.3 0.685 0.68 0.47 
+dual Loocv.Re 200 quadratic 0.35 0.745 0.64 0.455 
+dual Loocv.Re 200 quadratic 0.4 0.76 0.62 0.44 
+dual Loocv.Re 200 quadratic 0.45 0.795 0.69 0.51 
+dual Loocv.Re 200 quadratic 0.5 0.815 0.675 0.45 
+primal No.Re 200 linear 0 0 0 
+primal No.Re 200 linear 0.05 0 0 
+primal No.Re 200 linear 0.1 0 0 
+primal No.Re 200 linear 0.15 0 0 
+primal No.Re 200 linear 0.2 0 0 
+primal No.Re 200 linear 0.25 0 0 
+primal No.Re 200 linear 0.3 0 0 
+primal No.Re 200 linear 0.35 0 0 
+primal No.Re 200 linear 0.4 0 0 
+primal No.Re 200 linear 0.45 0 0 
+primal No.Re 200 linear 0.5 0 0 
