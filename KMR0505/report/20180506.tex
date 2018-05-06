@@ -1,5 +1,9 @@
 \documentclass[11pt]{article}
 
+% 
+\usepackage{natbib}
+\bibliographystyle{unsrtnat}
+
 % change document font family to Palatino, and code font to Courier
 \usepackage{mathpazo} % add possibly `sc` and `osf` options
 \usepackage{eulervm}
@@ -170,7 +174,7 @@ When $n$ is small, extreme overfitting is possible, giving small bias/ large var
 Compare (2.1.5) and (2.1.6), it is easy to tell that AICc considers more of the model complexity since $\frac{n}{n-tr(\bA_\lambda)-3}>1$. It makes sense intuitively because it need to shrink more to prevent small bias/ large variance estimates.
 
 \paragraph{GCV and small sample correction}\mbox{}\\
-In (2.1.4), if we approximate each $A_{\lambda[ii]}$ with their mean $\frac{tr(\bA_\lambda)}{n}$, in a sense that we give equal weight to all observations. We get our GCV objective function:
+In (2.1.4), if we approximate each $A_{\lambda[ii]}$ with their mean $\frac{tr(\bA_\lambda)}{n}$, in a sense that we give equal weight to all observations. We get our GCV objective function \citep{boonstra_tests_2016}:
 \begin{align}
 \lambda_{GCV}=\underset{\lambda \in \Lambda}{argmin}\Big\{log\; \by^{\star T}(\bI_n-\bA_\lambda)^2\by^\star-2log[1-\frac{tr(\bA_\lambda)}{n}-\frac{1}{n}]\Big\}
 \end{align}
@@ -372,7 +376,8 @@ $\#$ \texttt{Stage 4: Compute p-value and reach conclusion}
 
 
 
-
+\clearpage
+\bibliography{reference}
 
 
 %----------------------------------------------------------------------------------------
