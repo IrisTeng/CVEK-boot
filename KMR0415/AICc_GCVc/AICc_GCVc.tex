@@ -1,0 +1,218 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% University/School Laboratory Report
+% LaTeX Template
+% Version 3.1 (25/3/14)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Linux and Unix Users Group at Virginia Tech Wiki 
+% (https://vtluug.org/wiki/Example_LaTeX_chem_lab_report)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass{article}
+\usepackage{enumerate}
+\usepackage[version=3]{mhchem} % Package for chemical equation typesetting
+\usepackage{siunitx} % Provides the \SI{}{} and \si{} command for typesetting SI units
+\usepackage{graphicx} % Required for the inclusion of images
+\usepackage{natbib} % Required to change bibliography style to APA
+\usepackage{amsmath} % Required for some math elements 
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs
+
+\renewcommand{\labelenumi}{\alph{enumi}.} % Make numbering in the enumerate environment by letter rather than number (e.g. section 6)
+
+%\usepackage{times} % Uncomment to use the Times New Roman font
+
+%----------------------------------------------------------------------------------------
+%	DOCUMENT INFORMATION
+%----------------------------------------------------------------------------------------
+
+\title{Derivations of  AICc and GCVc\\ CVEK-boot} % Title
+
+\author{Wenying \textsc{Deng}} % Author name
+
+%\date{\today} % Date for the report
+
+\begin{document}
+
+\maketitle % Insert the title, author and date
+
+\begin{center}
+\begin{tabular}{l r}
+Date Performed: & April 8, 2018 \\ % Date the experiment was performed
+Instructor: & Jeremiah.Liu % Instructor/supervisor
+\end{tabular}
+\end{center}
+
+% If you wish to include an abstract, uncomment the lines below
+% \begin{abstract}
+% Abstract text
+% \end{abstract}
+
+%----------------------------------------------------------------------------------------
+%	SECTION 1
+%----------------------------------------------------------------------------------------
+
+\section{Derivation of AICc}
+\subsection{From KL info to AIC$^{1}$}
+Consider the situation where $x_1, x_2,..., x_n$ are obtained as the results of $n$ independent observations of a random variable with pdf $g(x)$. If a parametric family of density function is given by $f(y\mid \theta)$ with a vector parameter $\theta$, the average log-likelihood is given by
+\begin{align*}
+\frac{1}{n}\sum_{i=1}^n log f(x_i \mid \theta)
+\end{align*}
+As $n$ increases, this average tends, with probability 1, to
+\begin{align*}
+S(g;f(\cdot \mid \theta))=\int g(x)log f(x\mid \theta)dx
+\end{align*}
+The difference
+\begin{align}
+I(g;f(\cdot \mid \theta))=S(g;g)-S(g;f(\cdot \mid \theta))
+\end{align}
+is known as the Kullback-Leibler mean information for discrimination between $g(x)$ and $f(x\mid \theta)$ and takes positive value, unless $f(x\mid \theta)=g(x)$ holds almost everywhere.\\
+
+Consider the situation where $g(x)=f(x\mid \theta_0)$. For this case $I(g;f(\cdot \mid \theta))$and $S(g;f(\cdot \mid \theta))$ will simply be denoted by $I(\theta_0;\theta)$ and $S(\theta_0;\theta)$, respectively. When $\theta$ is sufficiently close to $\theta_0$, $I(\theta_0;\theta)$ admits an approximation
+\begin{align*}
+I(\theta_0;\theta_0+\Delta \theta)=\frac{1}{2}\parallel \Delta \theta \parallel _J^2
+\end{align*}
+where $\parallel \Delta \theta \parallel _J^2=\Delta \theta^T J \Delta \theta$ and $J$ is the Fisher information matrix which is positive definite and defined by
+\begin{align*}
+J_{ij}=E\{\frac{\partial log f(X\mid \theta)}{\partial \theta_i}\frac{\partial log f(X\mid \theta)}{\partial \theta_j}\}
+\end{align*}
+When the MLE $\hat{\theta}$ of $\theta_0$ lies very close to $\theta_0$, the deviation of the distribution defined by $f(x\mid \theta)$ from the true distribution $f(x\mid \theta_0)$ in terms of the variation of $S(g;f(\cdot \mid \theta))$ will be measured by $\frac{1}{2}\parallel \theta-\theta_0 \parallel _J^2$. Consider the situation where the variation of $\theta$ for maximizing the likelihood is restricted to a lower dimensional subspace $\Theta$ of $\theta$ which does not include $\theta_0$. For the MLE $\hat{\theta}$ of $\theta_0$ restricted in $\Theta$, if $\theta$ which is in $\Theta$ and gives the maximum of $S(\theta_0;\theta)$ is sufficiently close to $\theta_0$, it can be shown that the distribution of $n\parallel \hat{\theta}-\theta \parallel _J^2$ for sufficiently large $n$ is approximately under certain regularity conditions by a chi-square distribution with the df equal to the dimension of the restricted parameter space. Thus,
+\begin{align*}
+n\parallel \hat{\theta}-\theta_0 \parallel _J^2=&n\parallel \hat{\theta}-\theta+\theta-\theta_0 \parallel _J^2\\=&n\parallel \hat{\theta}-\theta \parallel _J^2+n\parallel \theta_0-\theta \parallel _J^2
+\end{align*}
+\begin{align}
+E[2n I(\theta_0;\hat{\theta})]=n\parallel \theta_0-\theta \parallel _J^2+k
+\end{align}
+where $k$ is the dimension of $\Theta$ or the number of parameters independently adjusted for the maximization of the likelihood.\\
+
+Why equation(2) becomes $AIC=2k-2ln(\hat{L})$ like the formula we see in wiki?\\
+The relation(2) is based on the fact that the asymptotic distribution of $\sqrt{n}(\hat{\theta}-\theta)$ is approximated by a Gaussian distribution with mean zero and variance matrix $J^{-1}$.\\
+Let's expand the log-likelihood $\frac{1}{n}\sum_{i=1}^n log f(x_i\mid \hat{\theta})$ at $\theta_0$:
+\begin{align*}
+&\frac{1}{n}\sum_{i=1}^n log f(x_i\mid \hat{\theta})\\ \approx &\frac{1}{n}\sum_{i=1}^n log f(x_i\mid \theta_0)+(\hat{\theta}-\theta_0)^T[\frac{1}{n}\sum_{i=1}^n \frac{\partial log f(x_i\mid \theta)}{\partial \theta}]\mid_{\theta=\theta_0}\\&+\frac{1}{2}(\hat{\theta}-\theta_0)^T[\frac{1}{n}\sum_{i=1}^n \frac{\partial^2 log f(x_i\mid \theta)}{\partial \theta^2}]\mid_{\theta=\theta_0}(\hat{\theta}-\theta_0)\\ \approx&\frac{1}{n}\sum_{i=1}^n log f(x_i\mid \theta_0)+\frac{1}{2}(\hat{\theta}-\theta_0)^T[\frac{1}{n}\sum_{i=1}^n \frac{\partial^2 }{\partial \theta^2} log f(x_i\mid \theta)]\mid_{\theta=\theta_0}(\hat{\theta}-\theta_0)
+\end{align*}
+Since,
+\begin{align*}
+[\frac{1}{n}\sum_{i=1}^n \frac{\partial log f(x_i\mid \theta)}{\partial \theta}]\mid_{\theta=\theta_0}\approx &E[\frac{\partial log f(x\mid \theta)}{\partial \theta}\mid_{\theta=\theta_0}]=0\\
+[\frac{1}{n}\sum_{i=1}^n \frac{\partial^2 }{\partial \theta^2} log f(x_i\mid \theta)]\mid_{\theta=\theta_0}\approx &-I(\theta_0)
+\end{align*}
+Thus,
+\begin{align*}
+&2[\sum_{i=1}^n log f(x_i\mid \theta_0)-\sum_{i=1}^n log f(x_i\mid \hat{\theta})]+k\\ \approx &(\theta_0-\hat{\theta})^T\sum_{i=1}^n \frac{\partial^2 }{\partial \theta^2} log f(x_i\mid \theta)(\theta_0-\hat{\theta})+k\\ \approx&n\parallel \theta_0-\theta \parallel _J^2
+\end{align*}
+The reason why I add $k$ to $2[\sum_{i=1}^n log f(x_i\mid \theta_0)-\sum_{i=1}^n log f(x_i\mid \hat{\theta})]$ is we need a correction for the bias introduced by replacing $\theta$ by $\hat{\theta}$.
+Therefore, (2) becomes
+\begin{align*}
+E[2n I(\theta_0;\hat{\theta})]=&2k+2[\sum_{i=1}^n log f(x_i\mid \theta_0)-\sum_{i=1}^n log f(x_i\mid \hat{\theta})]\\=&2k-2log(\hat{L})+2\sum_{i=1}^n log f(x_i\mid \theta_0)
+\end{align*}
+Moreover, since we are optimizing with respect to $\hat{\theta}$, we don't need to consider $2\sum_{i=1}^n log f(x_i\mid \theta_0)$, thus giving our objective fuction:
+\begin{align}
+AIC=2k-2ln(\hat{L})
+\end{align}
+
+\subsection{From AIC to AICc$^{2}$}
+Now we focus on minimizing $\Delta(\theta, \sigma^2)=-S(g;f(\cdot \mid \theta, \sigma^2))$, taking into account $\sigma^2$ as a parameter. Suppose the true $g$ corresponds to true model $\mu$
+\begin{align}
+y=\mu+\epsilon
+\end{align}
+where $\epsilon \sim N(0, \sigma_0^2)$.\\
+And the estimating $f$ corresponds to the approximating model $h(\theta)$
+\begin{align}
+y=h(\theta)+u
+\end{align}
+where $u \sim N(0, \sigma^2)$.\\
+We have
+\begin{align*}
+\Delta(\theta, \sigma^2)=&-2E_glog\{(2\pi \sigma^2)^{-\frac{1}{2}n}exp[-\{y-h(\theta)\}^T\{y-h(\theta)\}/(2\sigma^2)]\}\\=&n log(2\pi \sigma^2)+E_g\{\mu+\epsilon-h(\theta)\}^T\{\mu+\epsilon-h(\theta)\}/\sigma^2\\=&n log(2\pi \sigma^2)+n\sigma_0^2/\sigma^2+\{\mu-h(\theta)\}^T\{\mu-h(\theta)\}/\sigma^2
+\end{align*}
+A reasonable criterion for judging the quality of the approximating family in the light of the data is $E_g\{\Delta(\hat{\theta}, \hat{\sigma}^2)\}$, where $\hat{\theta}$ and $\hat{\sigma}^2$ are the MLE: $\hat{\theta}$ minimizes $\{y-h(\theta)\}^T\{y-h(\theta)\}$ and 
+\begin{align*}
+\hat{\sigma}^2=\{y-h(\hat{\theta})\}^T\{y-h(\hat{\theta})\}/n
+\end{align*}
+Ignoring the constant $n log(2\pi)$, we have
+\begin{align*}
+\Delta(\hat{\theta}, \hat{\sigma}^2)=n log(\hat{\sigma}^2)+n\sigma_0^2/\hat{\sigma}^2+\{\mu-h(\hat{\theta})\}^T\{\mu-h(\hat{\theta})\}/\hat{\sigma}^2
+\end{align*}
+Consider the equation(3) we derived just now, in this case,
+\begin{align*}
+AIC=&2(k+1)-2ln(\hat{L})\\=&2(k+1)-2[-\frac{n}{2}log (\hat{\sigma}^2)-\frac{n}{2}log (2\pi)-\frac{1}{2\hat{\sigma}^2}\{y-h(\hat{\theta})\}^T\{y-h(\hat{\theta})\}]\\=&2(k+1)+n log(\frac{1}{n}\{y-h(\hat{\theta})\}^T\{y-h(\hat{\theta})\})+n+n log(2\pi)
+\end{align*}
+where $k$ becomes $k+1$ due to the fact that we explicitly estimate $\sigma^2$ here.\\
+Again, ignoring the constant $n log(2\pi)$ and plugging $\hat{\sigma}^2=\{y-h(\hat{\theta})\}^T\{y-h(\hat{\theta})\}/n$ in, we have
+\begin{align}
+AIC=n(log \hat{\sigma}^2+1)+2(k+1)
+\end{align}
+Now assume that the approximating models include the true one. In this case, the mean response function $\mu$ of the true model can be written as $\mu=h(\theta_0)$, where $\theta_0$ is an $k\times 1$ vector. The linear expansion of $h(\hat{\theta})$ at $\theta=\theta_0$ is give by
+\begin{align*}
+h(\hat{\theta})\approx h(\theta_0)+V(\hat{\theta}-\theta_0)
+\end{align*}
+where $V=\frac{\partial h}{\partial \theta}$ evaluated at $\theta=\theta_0$. Then under the true model
+\begin{align}
+\hat{\theta}-\theta_0 \approx N(0, \sigma_0^2(V^TV)^{-1})
+\end{align}
+the quantity $n\hat{\sigma}^2/\sigma_0^2$ is approximately distributed as $\chi _{n-k}^2$ independently of $\hat{\theta}$, and
+\begin{align*}
+&(\frac{n-m}{nm})\frac{1}{\hat{\sigma}^2}\{\mu-h(\hat{\theta})\}^T\{\mu-h(\hat{\theta})\}\\=&(\frac{n-m}{nm})\frac{1}{\hat{\sigma}^2}\{h(\theta_0)-h(\hat{\theta})\}^T\{h(\theta_0)-h(\hat{\theta})\}\\ \approx & (\frac{n-m}{nm})\frac{1}{\hat{\sigma}^2}(\hat{\theta}-\theta_0)^TV^TV(\hat{\theta}-\theta_0)
+\end{align*}
+is approximately distributed as $F(m, n-m)$. Thus,
+\begin{align*}
+E_g\{\Delta(\hat{\theta}, \hat{\sigma}^2)\} \approx E_g(n log(\hat{\sigma}^2))+\frac{n^2}{n-m-2}+\frac{nm}{n-m-2}
+\end{align*}
+Consequently, we obtain
+\begin{align}
+AICc=n log(\hat{\sigma}^2)+n\frac{1+m/n}{1-(m+2)/n}
+\end{align}
+
+\subsection{From AICc to paper.2015$^{3}$}
+Back to the 21st century paper.\\
+Suppose we have data $\{\bf{y, x}\}$, comprising $n$ observations of a continuous outcome $Y$ and $p$ covariates $\bf{X}$, with the covariate matrix $\bf{x}$ regarded as fixed. We relate $Y$ and $\bf{X}$ by a linear model, $E(Y)=\beta_0+\bf{X}^T\bf{\beta}$, with the errors distribute as normal distribution.\\
+Note: $p$ here doesn't contain the coefficient $\beta_0$ and $\sigma^2$, therefore, corresponding to Part $\bf{1.2}$, $p+2=k+1$.\\
+\begin{align*}
+(equation(6)-n)/n, k+1\rightarrow p+2&\Rightarrow equation(2.5) in the paper\\
+(equation(8)-n)/n, k+1\rightarrow p+2&\Rightarrow equation(2.7) in the paper
+\end{align*}
+
+%----------------------------------------------------------------------------------------
+%	SECTION 2
+%----------------------------------------------------------------------------------------
+
+\section{Derivation of GCVc$^{3}$}
+According to equation(2.4) in the paper,
+\begin{align}
+\lambda_{GCV}=argmin_{\lambda}\{log y^T(I_n-P_{\lambda})^2y-2log(1-\frac{Trace(P_{\lambda})}{n}-\frac{1}{n})\}
+\end{align}
+The difference between the objective function we derived in winter break and this one is the extra term $-\frac{1}{n}$. This is because at that time we assume $\beta_0$ is known, while now we need to re-estimate $\beta_0$ every time we re-centering $y$ at each fold.\\
+
+The motivation of GCVc is to take $\sigma^2$ into account, thus subtracting one more $1/n$ term:
+\begin{align}
+\lambda_{GCVc}=argmin_{\lambda}\{log y^T(I_n-P_{\lambda})^2y-2log(1-\frac{Trace(P_{\lambda})}{n}-\frac{2}{n})_+\}
+\end{align}
+When fitting GCVc, the effective number of remaining parameters is less than $n-2$, and perfect fit of the observations to the predictions, given by $\lambda=0$, cannot occur.
+
+%----------------------------------------------------------------------------------------
+%	SECTION 3
+%----------------------------------------------------------------------------------------
+
+\section{References}
+\begin{enumerate}[1.]
+\item http://ieeexplore.ieee.org/document/1100705/
+\item https://academic.oup.com/biomet/article-abstract/76/2/297/265326?redirectedFrom=fulltext
+\item https://www.ncbi.nlm.nih.gov/pubmed/26985140
+\end{enumerate}
+
+
+%----------------------------------------------------------------------------------------
+
+
+\end{document}

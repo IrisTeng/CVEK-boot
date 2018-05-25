@@ -1,0 +1,195 @@
+
+R version 3.4.3 (2017-11-30) -- "Kite-Eating Tree"
+Copyright (C) 2017 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+[Previously saved workspace restored]
+
+> library(mvtnorm)
+> library(MASS)
+> library(snowfall)
+Loading required package: snow
+> library(psych)
+> 
+> source('./source/KernelGenerate.R')
+> source('./source/LooCV.R')
+> source('./source/gpr.R')
+> source('./source/util.R')
+> 
+> 
+> 
+> verify <- 
++   function(temptemp){
++     rawData <- OriginalData2(size = n, label.names, 
++                              method = method, int.effect = int.effect)
++     #linear.pvalue <- KernelBoot(formula, label.names, data = rawData,
++     #                            method = "linear", l=l,
++     #                            lambda = exp(seq(-5, 5, 1)), B = B)
++ 	linear.pvalue <- 1
++     gaussian.pvalue <- KernelBoot(formula, label.names, data = rawData, 
++                                   method = "gaussian", l=l, 
++                                   lambda = exp(seq(-5, 5, 1)), B = B)
++     return(c(linear.pvalue,gaussian.pvalue))
++   }
+> 
+> # produce plot similar to the CVEK paper. 
+> # (x-axis: interaction effect size, y-axis: ratio of p-value smaller than 0.05). 
+> # vary the interaction effect size between seq(0, 0.1, 0.02), 
+> # vary the effect size multiplication factor within  (1, 3, 5, 10), 
+> # vary the noise level within (0.05, 0.1, 0.25, 0.5, 1). 
+> # Keep bootstrap sample size at 200. Keep b11 = 2 (lower bound of effect size).
+> # number of repetition M fix at 1000.
+> # Repeat such experiment for linear and ridge regression.
+> 
+> sfInit(parallel = T, cpus = 20)
+R Version:  R version 3.4.3 (2017-11-30) 
+
+snowfall 1.84-6.1 initialized (using snow 0.4-2): parallel execution on 20 CPUs.
+
+> sfLibrary(mvtnorm)
+Library mvtnorm loaded.
+Library mvtnorm loaded in cluster.
+
+> sfLibrary(MASS)
+Library MASS loaded.
+Library MASS loaded in cluster.
+
+> sfLibrary(psych)
+Library psych loaded.
+Library psych loaded in cluster.
+
+> sfSource('./source/KernelGenerate.R')
+Source ./source/KernelGenerate.R loaded.
+Source ./source/KernelGenerate.R loaded in cluster.
+
+
+> KernelGenerate <- function(method = NULL, l = 1) {
++     if (method == "linear") 
++         SE <- function(xp, xq, l) t(xp) %*% xq
++     else if (me .... [TRUNCATED] 
+> sfSource('./source/LooCV.R')
+Source ./source/LooCV.R loaded.
+Source ./source/LooCV.R loaded in cluster.
+
+
+> LooCV <- function(y, K.mat, lambda = exp(seq(-5, 5, 
++     1))) {
++     n <- nrow(K.mat)
++     CV <- sapply(lambda, function(k) {
++         A <- K.m .... [TRUNCATED] 
+> sfSource('./source/gpr.R')
+Source ./source/gpr.R loaded.
+Source ./source/gpr.R loaded in cluster.
+
+
+> gpr <- function(formula, label.names, data = NULL, 
++     method = NULL, l = 1, lambda = exp(seq(-5, 5, 1)), null.hypo = T) {
++     y <- data[, as.c .... [TRUNCATED] 
+> sfSource('./source/util.R')
+Source ./source/util.R loaded.
+Source ./source/util.R loaded in cluster.
+
+
+> GenericFormula <- function(formula, label.names) {
++     formula.factors <- attr(terms(formula), "factors")
++     generic.formula <- Y ~ 1
++     len .... [TRUNCATED] 
+
+> OriginalData2 <- function(size, label.names, method = NULL, 
++     int.effect = 0, eps = 0.01) {
++     X1 <- rmvnorm(n = size, mean = rep(0, length( .... [TRUNCATED] 
+
+> NoiseEstimate <- function(y, lambda.hat, beta.hat, 
++     alpha.hat, K.hat) {
++     n <- nrow(K.hat)
++     V <- lambda.hat * diag(n) + K.hat
++     o .... [TRUNCATED] 
+
+> MultiScore2 <- function(formula, label.names, data = NULL, 
++     method = NULL, l = 1, lambda = exp(seq(-5, 5, 1))) {
++     y <- data[, as.characte .... [TRUNCATED] 
+
+> KernelBoot <- function(formula, label.names, data = NULL, 
++     method = NULL, l = 1, lambda = exp(seq(-5, 5, 1)), B = 100) {
++     Y <- data[, as. .... [TRUNCATED] 
+> formula <- Y ~ X1 + X2
+> label.names <- list(X1 = c("x1", "x2"), X2 = c("x3", "x4"))
+> result <- NULL
+> for(n in c(250,300,350,400,450,500)){
++   for (M in c(200)){
++     for (method in c("gaussian")){
++       for(int.effect in seq(0, 1, 0.1)){
++         for(l in 1){
++           for (B in c(100)){
++             sfExport("formula", "label.names", "int.effect",
++                      "n", "B", "M", "l", "method", "KernelBoot", "OriginalData2",
++                      "GenericFormula", "gpr", "MultiScore2") 
++             system.time(res <- sfSapply(1 : M, verify))
++             write.table(t(res), file = "simulation_power_pvalue.txt",
++                         row.names = F, col.names = F, append = T)            
++             res2 <- apply(res, 1, function(x){sum(x < 0.05) / M})
++             result <- rbind(result, c(int.effect, l, method, n, res2))
++             cat(c(int.effect, l, method, n, res2),
++                 file = "simulation_power.txt", append = T, "\n")
++             cat("Finished:interaction effect size=", int.effect, 
++                 "n=", n, "l=", l, "\n")
++           }
++         }
++       }
++     }
++   }
++ }
+Finished:interaction effect size= 0 n= 250 l= 1 
+Finished:interaction effect size= 0.1 n= 250 l= 1 
+Finished:interaction effect size= 0.2 n= 250 l= 1 
+Finished:interaction effect size= 0.3 n= 250 l= 1 
+Finished:interaction effect size= 0.4 n= 250 l= 1 
+Finished:interaction effect size= 0.5 n= 250 l= 1 
+Finished:interaction effect size= 0.6 n= 250 l= 1 
+Finished:interaction effect size= 0.7 n= 250 l= 1 
+Finished:interaction effect size= 0.8 n= 250 l= 1 
+Finished:interaction effect size= 0.9 n= 250 l= 1 
+Finished:interaction effect size= 1 n= 250 l= 1 
+Finished:interaction effect size= 0 n= 300 l= 1 
+Finished:interaction effect size= 0.1 n= 300 l= 1 
+Finished:interaction effect size= 0.2 n= 300 l= 1 
+Finished:interaction effect size= 0.3 n= 300 l= 1 
+Finished:interaction effect size= 0.4 n= 300 l= 1 
+Finished:interaction effect size= 0.5 n= 300 l= 1 
+Finished:interaction effect size= 0.6 n= 300 l= 1 
+Finished:interaction effect size= 0.7 n= 300 l= 1 
+Finished:interaction effect size= 0.8 n= 300 l= 1 
+Finished:interaction effect size= 0.9 n= 300 l= 1 
+Finished:interaction effect size= 1 n= 300 l= 1 
+Finished:interaction effect size= 0 n= 350 l= 1 
+Finished:interaction effect size= 0.1 n= 350 l= 1 
+Finished:interaction effect size= 0.2 n= 350 l= 1 
+Finished:interaction effect size= 0.3 n= 350 l= 1 
+Finished:interaction effect size= 0.4 n= 350 l= 1 
+Finished:interaction effect size= 0.5 n= 350 l= 1 
+Finished:interaction effect size= 0.6 n= 350 l= 1 
+Finished:interaction effect size= 0.7 n= 350 l= 1 
+Finished:interaction effect size= 0.8 n= 350 l= 1 
+Finished:interaction effect size= 0.9 n= 350 l= 1 
+Finished:interaction effect size= 1 n= 350 l= 1 
+Finished:interaction effect size= 0 n= 400 l= 1 
+Finished:interaction effect size= 0.1 n= 400 l= 1 
+Error in checkForRemoteErrors(val) : 
+  one node produced an error: error code 1 from Lapack routine 'dgesdd'
+Calls: system.time ... clusterApply -> staticClusterApply -> checkForRemoteErrors
+Timing stopped at: 0.005 0.001 1.327e+04
+Execution halted

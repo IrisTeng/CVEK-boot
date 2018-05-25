@@ -1,0 +1,15 @@
+Code: 
+main3.R
+
+Output:
+p-values and test statistics (M=1000):
+File name: (dual/primal)_(No.Re/Loocv.Re)_(sample size)_(linear/gaussian/quadratic)
+(dual/primal): kernel or regular form;
+(No.Re/Loocv.Re): No regularizarion or LooCV to select the tuning parameter;
+(sample size): data sample size;
+(linear/gaussian/quadratic): generate method.
+
+
+Since B=1 here, p-value is 0 or 1.
+
+I will run B=200 (M=200) to see the effects.

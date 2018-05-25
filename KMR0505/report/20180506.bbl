@@ -1,0 +1,19 @@
+\begin{thebibliography}{1}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Boonstra et~al.(2016)Boonstra, Mukherjee, Gruber, Ahn, Schmit, and
+  Chatterjee]{boonstra_tests_2016}
+Philip~S. Boonstra, Bhramar Mukherjee, Stephen~B. Gruber, Jaeil Ahn,
+  Stephanie~L. Schmit, and Nilanjan Chatterjee.
+\newblock Tests for {Gene}-{Environment} {Interactions} and {Joint} {Effects}
+  {With} {Exposure} {Misclassification}.
+\newblock \emph{American Journal of Epidemiology}, 183\penalty0 (3):\penalty0
+  237--247, February 2016.
+\newblock ISSN 1476-6256.
+\newblock \doi{10.1093/aje/kwv198}.
+
+\end{thebibliography}
