@@ -3,7 +3,7 @@
 \contentsline {subsection}{\numberline {2.1}\textbf {Cross-validated Ensemble of Kernerls}}{3}
 \contentsline {subsubsection}{\numberline {2.1.1}{Overview}}{3}
 \contentsline {subsubsection}{\numberline {2.1.2}{Tuning Parameter Selection}}{3}
-\contentsline {paragraph}{K-Fold and Leave-one-out Cross Validation}{4}
+\contentsline {paragraph}{K-Fold and leave-one-out Cross Validation}{4}
 \contentsline {paragraph}{Akaike Information Criteria}{4}
 \contentsline {paragraph}{Generalized Cross Validation}{5}
 \contentsline {paragraph}{Generalized Maximum Profile Marginal Likelihood}{5}
