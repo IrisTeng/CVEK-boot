@@ -1,0 +1,109 @@
+\begin{thebibliography}{10}
+
+\bibitem{liu_robust_2017}
+Jeremiah~Zhe Liu and Brent Coull.
+\newblock Robust {Hypothesis} {Test} for {Nonlinear} {Effect} with {Gaussian}
+  {Processes}.
+\newblock {\em arXiv:1710.01406 [stat]}, October 2017.
+
+\bibitem{golub_generalized_1979}
+Gene~H. Golub, Michael Heath, and Grace Wahba.
+\newblock Generalized {Cross}-{Validation} as a {Method} for {Choosing} a
+  {Good} {Ridge} {Parameter}.
+\newblock {\em Technometrics}, 21(2):215--223, May 1979.
+
+\bibitem{hastie_elements_2009}
+Trevor Hastie, Robert Tibshirani, and Jerome Friedman.
+\newblock {\em The {Elements} of {Statistical} {Learning}: {Data} {Mining},
+  {Inference}, and {Prediction}, {Second} {Edition}}.
+\newblock Springer {Series} in {Statistics}. Springer-Verlag, New York, 2
+  edition, 2009.
+
+\bibitem{akaike_information_1998}
+Hirotogu Akaike.
+\newblock Information {Theory} and an {Extension} of the {Maximum} {Likelihood}
+  {Principle}.
+\newblock In {\em Selected {Papers} of {Hirotugu} {Akaike}}, Springer {Series}
+  in {Statistics}, pages 199--213. Springer, New York, NY, 1998.
+
+\bibitem{hurvich_regression_1989}
+Clifford~M. Hurvich and Chih-Ling Tsai.
+\newblock Regression and time series model selection in small samples.
+\newblock {\em Biometrika}, 76(2):297--307, June 1989.
+
+\bibitem{hurvich_clifford_m._smoothing_2002}
+{Hurvich Clifford M.}, {Simonoff Jeffrey S.}, and {Tsai Chih‐Ling}.
+\newblock Smoothing parameter selection in nonparametric regression using an
+  improved {Akaike} information criterion.
+\newblock {\em Journal of the Royal Statistical Society: Series B (Statistical
+  Methodology)}, 60(2):271--293, January 2002.
+
+\bibitem{boonstra_small-sample_2015}
+Philip~S. Boonstra, Bhramar Mukherjee, and Jeremy M.~G. Taylor.
+\newblock A {Small}-{Sample} {Choice} of the {Tuning} {Parameter} in {Ridge}
+  {Regression}.
+\newblock {\em Statistica Sinica}, 25(3):1185--1206, July 2015.
+
+\bibitem{wecker_signal_1983}
+William~E. Wecker and Craig~F. Ansley.
+\newblock The {Signal} {Extraction} {Approach} to {Nonlinear} {Regression} and
+  {Spline} {Smoothing}.
+\newblock {\em Journal of the American Statistical Association},
+  78(381):81--89, March 1983.
+
+\bibitem{harville_maximum_1977}
+David~A. Harville.
+\newblock Maximum {Likelihood} {Approaches} to {Variance} {Component}
+  {Estimation} and to {Related} {Problems}.
+\newblock {\em Journal of the American Statistical Association},
+  72(358):320--338, 1977.
+
+\bibitem{wahba_comparison_1985}
+Grace Wahba.
+\newblock A {Comparison} of {GCV} and {GML} for {Choosing} the {Smoothing}
+  {Parameter} in the {Generalized} {Spline} {Smoothing} {Problem}.
+\newblock {\em The Annals of Statistics}, 13(4):1378--1402, December 1985.
+
+\bibitem{reiss_smoothing_2009}
+Philip~T. Reiss and R.~Todd Ogden.
+\newblock Smoothing {Parameter} {Selection} for a {Class} of {Semiparametric}
+  {Linear} {Models}.
+\newblock {\em JRSS-B}, 71(2), 2009.
+
+\bibitem{zhan_fast_2017}
+Xiang Zhan, Anna Plantinga, Ni~Zhao, and Michael~C. Wu.
+\newblock A fast small-sample kernel independence test for microbiome
+  community-level association analysis.
+\newblock {\em Biometrics}, 73(4):1453--1463, December 2017.
+
+\bibitem{stein_interpolation_1999}
+Michael~L. Stein.
+\newblock {\em Interpolation of {Spatial} {Data}: {Some} {Theory} for
+  {Kriging}}.
+\newblock Springer {Series} in {Statistics}. Springer-Verlag, New York, 1999.
+
+\bibitem{abramowitz_handbook_1974}
+Milton Abramowitz.
+\newblock {\em Handbook of {Mathematical} {Functions}, {With} {Formulas},
+  {Graphs}, and {Mathematical} {Tables},}.
+\newblock Dover Publications, Inc., New York, NY, USA, 1974.
+
+\bibitem{lin_variance_1997}
+Xihong Lin.
+\newblock Variance component testing in generalised linear models with random
+  effects.
+\newblock {\em Biometrika}, 84(2):309--326, June 1997.
+
+\bibitem{maity_powerful_2011}
+Arnab Maity and Xihong Lin.
+\newblock Powerful tests for detecting a gene effect in the presence of
+  possible gene-gene interactions using garrote kernel machines.
+\newblock {\em Biometrics}, 67(4):1271--1284, December 2011.
+
+\bibitem{buzkova_permutation_2011}
+Petra Bůžková, Thomas Lumley, and Kenneth Rice.
+\newblock Permutation and parametric bootstrap tests for gene-gene and
+  gene-environment interactions.
+\newblock {\em Annals of Human Genetics}, 75(1):36--45, January 2011.
+
+\end{thebibliography}

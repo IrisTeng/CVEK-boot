@@ -1,0 +1,60 @@
+\begin{thebibliography}{7}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Reiss and Ogden(2009)]{reiss_smoothing_2009}
+Philip~T. Reiss and R.~Todd Ogden.
+\newblock Smoothing {Parameter} {Selection} for a {Class} of {Semiparametric}
+  {Linear} {Models}.
+\newblock \emph{JRSS-B}, 71\penalty0 (2), 2009.
+
+\bibitem[Lindstrom and Bates(1988)]{lindstrom_newtonraphson_1988}
+Mary~J. Lindstrom and Douglas~M. Bates.
+\newblock Newton—{Raphson} and {EM} {Algorithms} for {Linear}
+  {Mixed}-{Effects} {Models} for {Repeated}-{Measures} {Data}.
+\newblock \emph{Journal of the American Statistical Association}, 83\penalty0
+  (404):\penalty0 1014--1022, December 1988.
+\newblock ISSN 0162-1459.
+\newblock \doi{10.1080/01621459.1988.10478693}.
+\newblock URL \url{https://doi.org/10.1080/01621459.1988.10478693}.
+
+\bibitem[Wahba(1990)]{wahba_spline_1990}
+G.~Wahba.
+\newblock \emph{Spline {Models} for {Observational} {Data}}.
+\newblock {CBMS}-{NSF} {Regional} {Conference} {Series} in {Applied}
+  {Mathematics}. Society for Industrial and Applied Mathematics, January 1990.
+\newblock ISBN 978-0-89871-244-5.
+\newblock \doi{10.1137/1.9781611970128}.
+\newblock URL \url{https://epubs.siam.org/doi/book/10.1137/1.9781611970128}.
+
+\bibitem[Pawitan(2001)]{pawitan_all_2001}
+Pawitan.
+\newblock \emph{In {All} {Likelihood}: {Statistical} {Modelling} and
+  {Inference} {Using} {Likelihood}}.
+\newblock Oxford University Press, Oxford, New York, August 2001.
+\newblock ISBN 978-0-19-850765-9.
+
+\bibitem[Lee et~al.(2006)Lee, Nelder, and Pawitan]{lee_generalized_2006}
+Lee, Nelder, and Pawitan.
+\newblock Generalized {Linear} {Models} with {Random} {Effects}: {Unified}
+  {Analysis} via {H}-likelihood, July 2006.
+
+\bibitem[Craven and Wahba(1979)]{craven_smoothing_1979}
+P.~Craven and G.~Wahba.
+\newblock Smoothing noisy data with spline functions {\textbar} {SpringerLink},
+  1979.
+\newblock URL \url{https://link.springer.com/article/10.1007/BF01404567}.
+
+\bibitem[Maity and Lin(2011)]{maity_powerful_2011}
+Arnab Maity and Xihong Lin.
+\newblock Powerful tests for detecting a gene effect in the presence of
+  possible gene-gene interactions using garrote kernel machines.
+\newblock \emph{Biometrics}, 67\penalty0 (4):\penalty0 1271--1284, December
+  2011.
+\newblock ISSN 1541-0420.
+\newblock \doi{10.1111/j.1541-0420.2011.01598.x}.
+
+\end{thebibliography}
