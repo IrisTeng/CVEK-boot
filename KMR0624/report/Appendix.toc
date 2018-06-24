@@ -1,0 +1,7 @@
+\contentsline {section}{\numberline {1}{\bf Derivation of Derivative wrt $\lambda $}}{2}
+\contentsline {subsection}{\numberline {1.1}\textbf {Derivative of REML}}{2}
+\contentsline {subsection}{\numberline {1.2}\textbf {Derivative of GCV}}{4}
+\contentsline {subsection}{\numberline {1.3}\textbf {Derivative of AIC}}{5}
+\contentsline {section}{\numberline {2}{\bf Derivation of the REML based Test Statistic}}{5}
+\contentsline {subsection}{\numberline {2.1}\textbf {Derivation of the Score Test Statistic}}{5}
+\contentsline {subsection}{\numberline {2.2}\textbf {The Null Distribution of the Test Statistic}}{6}
