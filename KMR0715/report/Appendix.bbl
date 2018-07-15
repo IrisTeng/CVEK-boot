@@ -1,0 +1,57 @@
+\begin{thebibliography}{1}
+
+\bibitem{reiss_smoothing_2009}
+Philip~T. Reiss and R.~Todd Ogden.
+\newblock Smoothing {Parameter} {Selection} for a {Class} of {Semiparametric}
+  {Linear} {Models}.
+\newblock {\em JRSS-B}, 71(2), 2009.
+
+\bibitem{lindstrom_newtonraphson_1988}
+Mary~J. Lindstrom and Douglas~M. Bates.
+\newblock Newton—{Raphson} and {EM} {Algorithms} for {Linear}
+  {Mixed}-{Effects} {Models} for {Repeated}-{Measures} {Data}.
+\newblock {\em Journal of the American Statistical Association},
+  83(404):1014--1022, December 1988.
+
+\bibitem{wahba_spline_1990}
+G.~Wahba.
+\newblock {\em Spline {Models} for {Observational} {Data}}.
+\newblock {CBMS}-{NSF} {Regional} {Conference} {Series} in {Applied}
+  {Mathematics}. Society for Industrial and Applied Mathematics, January 1990.
+
+\bibitem{pawitan_all_2001}
+Pawitan.
+\newblock {\em In {All} {Likelihood}: {Statistical} {Modelling} and {Inference}
+  {Using} {Likelihood}}.
+\newblock Oxford University Press, Oxford, New York, August 2001.
+
+\bibitem{lee_generalized_2006}
+Lee, Nelder, and Pawitan.
+\newblock Generalized {Linear} {Models} with {Random} {Effects}: {Unified}
+  {Analysis} via {H}-likelihood, July 2006.
+
+\bibitem{craven_smoothing_1979}
+P.~Craven and G.~Wahba.
+\newblock Smoothing noisy data with spline functions {\textbar} {SpringerLink},
+  1979.
+
+\bibitem{maity_powerful_2011}
+Arnab Maity and Xihong Lin.
+\newblock Powerful tests for detecting a gene effect in the presence of
+  possible gene-gene interactions using garrote kernel machines.
+\newblock {\em Biometrics}, 67(4):1271--1284, December 2011.
+
+\bibitem{liu_semiparametric_2007}
+Dawei Liu, Xihong Lin, and Debashis Ghosh.
+\newblock Semiparametric regression of multidimensional genetic pathway data:
+  least-squares kernel machines and linear mixed models.
+\newblock {\em Biometrics}, 63(4):1079--1088, December 2007.
+
+\bibitem{lin_inference_1999}
+X.~Lin and D.~Zhang.
+\newblock Inference in generalized additive mixed modelsby using smoothing
+  splines.
+\newblock {\em Journal of the Royal Statistical Society: Series B (Statistical
+  Methodology)}, 61(2):381--400, 1999.
+
+\end{thebibliography}
