@@ -1,0 +1,110 @@
+\headcommand {\slideentry {0}{0}{1}{1/1}{}{0}}
+\headcommand {\beamer@framepages {1}{1}}
+\headcommand {\slideentry {0}{0}{2}{2/2}{}{0}}
+\headcommand {\beamer@framepages {2}{2}}
+\headcommand {\beamer@sectionpages {1}{2}}
+\headcommand {\beamer@subsectionpages {1}{2}}
+\headcommand {\sectionentry {1}{Problem Setup}{3}{Problem Setup}{0}}
+\headcommand {\slideentry {1}{0}{1}{3/3}{}{0}}
+\headcommand {\beamer@framepages {3}{3}}
+\headcommand {\slideentry {1}{0}{2}{4/8}{}{0}}
+\headcommand {\beamer@framepages {4}{8}}
+\headcommand {\slideentry {1}{0}{3}{9/9}{}{0}}
+\headcommand {\beamer@framepages {9}{9}}
+\headcommand {\slideentry {1}{0}{4}{10/10}{}{0}}
+\headcommand {\beamer@framepages {10}{10}}
+\headcommand {\slideentry {1}{0}{5}{11/11}{}{0}}
+\headcommand {\beamer@framepages {11}{11}}
+\headcommand {\slideentry {1}{0}{6}{12/12}{}{0}}
+\headcommand {\beamer@framepages {12}{12}}
+\headcommand {\slideentry {1}{0}{7}{13/13}{}{0}}
+\headcommand {\beamer@framepages {13}{13}}
+\headcommand {\slideentry {1}{0}{8}{14/14}{}{0}}
+\headcommand {\beamer@framepages {14}{14}}
+\headcommand {\beamer@sectionpages {3}{14}}
+\headcommand {\beamer@subsectionpages {3}{14}}
+\headcommand {\sectionentry {2}{Cross-Validated Ensemble of Kernels}{15}{Cross-Validated Ensemble of Kernels}{0}}
+\headcommand {\slideentry {2}{0}{1}{15/15}{}{0}}
+\headcommand {\beamer@framepages {15}{15}}
+\headcommand {\beamer@subsectionpages {15}{15}}
+\headcommand {\beamer@subsectionentry {0}{2}{1}{16}{Tuning Parameter Selection}}
+\headcommand {\slideentry {2}{1}{1}{16/16}{Tuning Parameter Selection}{0}}
+\headcommand {\beamer@framepages {16}{16}}
+\headcommand {\slideentry {2}{1}{2}{17/17}{Tuning Parameter Selection}{0}}
+\headcommand {\beamer@framepages {17}{17}}
+\headcommand {\slideentry {2}{1}{3}{18/18}{Tuning Parameter Selection}{0}}
+\headcommand {\beamer@framepages {18}{18}}
+\headcommand {\beamer@subsectionpages {16}{18}}
+\headcommand {\beamer@subsectionentry {0}{2}{2}{19}{Ensemble Strategy}}
+\headcommand {\slideentry {2}{2}{1}{19/19}{Ensemble Strategy}{0}}
+\headcommand {\beamer@framepages {19}{19}}
+\headcommand {\slideentry {2}{2}{2}{20/20}{Ensemble Strategy}{0}}
+\headcommand {\beamer@framepages {20}{20}}
+\headcommand {\beamer@subsectionpages {19}{20}}
+\headcommand {\beamer@subsectionentry {0}{2}{3}{21}{Kernel Choice}}
+\headcommand {\slideentry {2}{3}{1}{21/21}{Kernel Choice}{0}}
+\headcommand {\beamer@framepages {21}{21}}
+\headcommand {\beamer@sectionpages {15}{21}}
+\headcommand {\beamer@subsectionpages {21}{21}}
+\headcommand {\sectionentry {3}{Hypothesis Test}{22}{Hypothesis Test}{0}}
+\headcommand {\slideentry {3}{0}{1}{22/22}{}{0}}
+\headcommand {\beamer@framepages {22}{22}}
+\headcommand {\beamer@subsectionpages {22}{22}}
+\headcommand {\beamer@subsectionentry {0}{3}{1}{23}{Asymptotic Test}}
+\headcommand {\slideentry {3}{1}{1}{23/26}{Asymptotic Test}{0}}
+\headcommand {\beamer@framepages {23}{26}}
+\headcommand {\beamer@subsectionpages {23}{26}}
+\headcommand {\beamer@subsectionentry {0}{3}{2}{27}{Bootstrap Test}}
+\headcommand {\slideentry {3}{2}{1}{27/27}{Bootstrap Test}{0}}
+\headcommand {\beamer@framepages {27}{27}}
+\headcommand {\slideentry {3}{2}{2}{28/28}{Bootstrap Test}{0}}
+\headcommand {\beamer@framepages {28}{28}}
+\headcommand {\slideentry {3}{2}{3}{29/29}{Bootstrap Test}{0}}
+\headcommand {\beamer@framepages {29}{29}}
+\headcommand {\slideentry {3}{2}{4}{30/35}{Bootstrap Test}{0}}
+\headcommand {\beamer@framepages {30}{35}}
+\headcommand {\beamer@sectionpages {22}{35}}
+\headcommand {\beamer@subsectionpages {27}{35}}
+\headcommand {\sectionentry {4}{Simulation Study}{36}{Simulation Study}{0}}
+\headcommand {\slideentry {4}{0}{1}{36/36}{}{0}}
+\headcommand {\beamer@framepages {36}{36}}
+\headcommand {\beamer@subsectionpages {36}{36}}
+\headcommand {\beamer@subsectionentry {0}{4}{1}{37}{Data-generation Mechanism}}
+\headcommand {\slideentry {4}{1}{1}{37/37}{Data-generation Mechanism}{0}}
+\headcommand {\beamer@framepages {37}{37}}
+\headcommand {\beamer@subsectionpages {37}{37}}
+\headcommand {\beamer@subsectionentry {0}{4}{2}{38}{Model Strategy}}
+\headcommand {\slideentry {4}{2}{1}{38/38}{Model Strategy}{0}}
+\headcommand {\beamer@framepages {38}{38}}
+\headcommand {\beamer@subsectionpages {38}{38}}
+\headcommand {\beamer@subsectionentry {0}{4}{3}{39}{Result}}
+\headcommand {\slideentry {4}{3}{1}{39/39}{Result}{0}}
+\headcommand {\beamer@framepages {39}{39}}
+\headcommand {\slideentry {4}{3}{2}{40/40}{Result}{0}}
+\headcommand {\beamer@framepages {40}{40}}
+\headcommand {\slideentry {4}{3}{3}{41/41}{Result}{0}}
+\headcommand {\beamer@framepages {41}{41}}
+\headcommand {\slideentry {4}{3}{4}{42/42}{Result}{0}}
+\headcommand {\beamer@framepages {42}{42}}
+\headcommand {\slideentry {4}{3}{5}{43/43}{Result}{0}}
+\headcommand {\beamer@framepages {43}{43}}
+\headcommand {\slideentry {4}{3}{6}{44/44}{Result}{0}}
+\headcommand {\beamer@framepages {44}{44}}
+\headcommand {\slideentry {4}{3}{7}{45/45}{Result}{0}}
+\headcommand {\beamer@framepages {45}{45}}
+\headcommand {\beamer@sectionpages {36}{45}}
+\headcommand {\beamer@subsectionpages {39}{45}}
+\headcommand {\sectionentry {5}{Appendix}{46}{Appendix}{0}}
+\headcommand {\slideentry {5}{0}{1}{46/46}{}{0}}
+\headcommand {\beamer@framepages {46}{46}}
+\headcommand {\slideentry {5}{0}{2}{47/47}{}{0}}
+\headcommand {\beamer@framepages {47}{47}}
+\headcommand {\slideentry {5}{0}{3}{48/48}{}{0}}
+\headcommand {\beamer@framepages {48}{48}}
+\headcommand {\slideentry {5}{0}{4}{49/49}{}{0}}
+\headcommand {\beamer@framepages {49}{49}}
+\headcommand {\beamer@partpages {1}{49}}
+\headcommand {\beamer@subsectionpages {46}{49}}
+\headcommand {\beamer@sectionpages {46}{49}}
+\headcommand {\beamer@documentpages {49}}
+\headcommand {\gdef \inserttotalframenumber {37}}

@@ -1,0 +1,13 @@
+\beamer@sectionintoc {1}{Problem Setup}{3}{0}{1}
+\beamer@sectionintoc {2}{Cross-Validated Ensemble of Kernels}{15}{0}{2}
+\beamer@subsectionintoc {2}{1}{Tuning Parameter Selection}{16}{0}{2}
+\beamer@subsectionintoc {2}{2}{Ensemble Strategy}{19}{0}{2}
+\beamer@subsectionintoc {2}{3}{Kernel Choice}{21}{0}{2}
+\beamer@sectionintoc {3}{Hypothesis Test}{22}{0}{3}
+\beamer@subsectionintoc {3}{1}{Asymptotic Test}{23}{0}{3}
+\beamer@subsectionintoc {3}{2}{Bootstrap Test}{27}{0}{3}
+\beamer@sectionintoc {4}{Simulation Study}{36}{0}{4}
+\beamer@subsectionintoc {4}{1}{Data-generation Mechanism}{37}{0}{4}
+\beamer@subsectionintoc {4}{2}{Model Strategy}{38}{0}{4}
+\beamer@subsectionintoc {4}{3}{Result}{39}{0}{4}
+\beamer@sectionintoc {5}{Appendix}{46}{0}{5}
