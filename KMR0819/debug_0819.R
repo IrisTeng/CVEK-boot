@@ -3,8 +3,6 @@ setwd('/Users/dorabeedeng/Desktop')
 setwd('./CVEK')
 load_all()
 
-label_names <- list(X1 = c("x1", "x2"), X2 = c("x3", "x4"))
-
 set.seed(917)
 data <- generate_data(n = 50, label_names, method = "rbf", 
                       int_effect = .3, l = 1, eps = .01)
@@ -15,11 +13,27 @@ kern_par$method <- as.character(kern_par$method)
 
 kern <- generate_kernel("linear", p = 1)
 
+label_names <- list(X1 = c("x1", "x2"), X2 = c("x3", "x4"))
+method <- "polynomial"
 formula <- Y ~ X1 + X2
-fit <- define_model(formula, label_names, data, kern_par)
+formula_int <- Y ~ X1 * X2
+# fit <- define_model(formula, label_names, data, kern_par)
 mode <- "loocv"
 strategy <- "avg"
-lambda <- exp(seq(-5, 5))
+int_effect <- 0
+eps <- .01
+lambda <- exp(seq(-10, 5, .5))
+p <- 2
+l <- 1
+beta <- "min"
+B <- 100
+test <- "boot"
+n <- 100
+Y <- fit$Y 
+X1 <- fit$X1 
+X2 <- fit$X2
+kern_list <- fit$kern_list
+
 
 sol <- estimation(fit$Y, fit$X1, fit$X2, fit$kern_list, mode, strategy, lambda)
 yhat_kern <- sol$intercept + sol$K %*% sol$alpha
@@ -69,7 +83,9 @@ out2 <- ensemble(n, kern_size, strategy, beta, error_mat, A_hat)
 A_est <- out2$A_est
 u_hat <- out2$u_hat
 
-As <- svd(A_est)
+
+
+As <- svd(ens_res$A_est)
 K_hat <- As$u %*% diag(As$d / (1 - As$d)) %*% t(As$u)
 
 ####################################################################
