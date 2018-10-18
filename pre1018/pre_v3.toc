@@ -1,0 +1,7 @@
+\beamer@sectionintoc {1}{Problem Setup}{3}{0}{1}
+\beamer@sectionintoc {2}{Model $\&$ Method}{14}{0}{2}
+\beamer@subsectionintoc {2}{1}{Estimating $f$: Kernel Machine Regression (KMR)}{15}{0}{2}
+\beamer@subsectionintoc {2}{2}{Testing $f=0$: Variance Component Test}{19}{0}{2}
+\beamer@sectionintoc {3}{Cross-Validated Kernel Ensemble}{26}{0}{3}
+\beamer@sectionintoc {4}{Bootstrap Test}{38}{0}{4}
+\beamer@sectionintoc {5}{Simulation Study}{47}{0}{5}
