@@ -1,0 +1,244 @@
+\begin{thebibliography}{26}
+\newcommand{\enquote}[1]{``#1''}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\urlprefix}{URL }
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi:\discretionary{}{}{}#1}\else
+  \providecommand{\doi}{doi:\discretionary{}{}{}\begingroup
+  \urlstyle{rm}\Url}\fi
+\providecommand{\eprint}[2][]{\url{#2}}
+
+\bibitem[{Abramowitz(1974)}]{abramowitz_handbook_1974}
+Abramowitz M (1974).
+\newblock \emph{Handbook of {Mathematical} {Functions}, {With} {Formulas},
+  {Graphs}, and {Mathematical} {Tables},}.
+\newblock Dover Publications, Inc., New York, NY, USA.
+\newblock ISBN 978-0-486-61272-0.
+
+\bibitem[{Akaike(1998)}]{akaike_information_1998}
+Akaike H (1998).
+\newblock \enquote{Information {Theory} and an {Extension} of the {Maximum}
+  {Likelihood} {Principle}.}
+\newblock In \emph{Selected {Papers} of {Hirotugu} {Akaike}}, Springer {Series}
+  in {Statistics}, pp. 199--213. Springer, New York, NY.
+\newblock ISBN 978-1-4612-7248-9 978-1-4612-1694-0.
+
+\bibitem[{Boonstra \emph{et~al.}(2015)Boonstra, Mukherjee, and
+  Taylor}]{boonstra_small-sample_2015}
+Boonstra PS, Mukherjee B, Taylor JMG (2015).
+\newblock \enquote{A {Small}-{Sample} {Choice} of the {Tuning} {Parameter} in
+  {Ridge} {Regression}.}
+\newblock \emph{Statistica Sinica}, \textbf{25}(3), 1185--1206.
+\newblock ISSN 1017-0405.
+\newblock \doi{10.5705/ss.2013.284}.
+
+\bibitem[{Bůžková \emph{et~al.}(2011)Bůžková, Lumley, and
+  Rice}]{buzkova_permutation_2011}
+Bůžková P, Lumley T, Rice K (2011).
+\newblock \enquote{Permutation and parametric bootstrap tests for gene-gene and
+  gene-environment interactions.}
+\newblock \emph{Annals of Human Genetics}, \textbf{75}(1), 36--45.
+\newblock ISSN 1469-1809.
+\newblock \doi{10.1111/j.1469-1809.2010.00572.x}.
+
+\bibitem[{Craven and Wahba(1979)}]{craven_smoothing_1979}
+Craven P, Wahba G (1979).
+\newblock \enquote{Smoothing noisy data with spline functions {\textbar}
+  {SpringerLink}.}
+\newblock \urlprefix\url{https://link.springer.com/article/10.1007/BF01404567}.
+
+\bibitem[{Dalalyan and Tsybakov(2007)}]{dalalyan_aggregation_2007}
+Dalalyan AS, Tsybakov AB (2007).
+\newblock \enquote{Aggregation by {Exponential} {Weighting} and {Sharp}
+  {Oracle} {Inequalities}.}
+\newblock In \emph{Learning {Theory}}, Lecture {Notes} in {Computer} {Science},
+  pp. 97--111. Springer, Berlin, Heidelberg.
+\newblock ISBN 978-3-540-72925-9 978-3-540-72927-3.
+\newblock \doi{10.1007/978-3-540-72927-3_9}.
+\newblock
+  \urlprefix\url{https://link.springer.com/chapter/10.1007/978-3-540-72927-3_9}.
+
+\bibitem[{Golub \emph{et~al.}(1979)Golub, Heath, and
+  Wahba}]{golub_generalized_1979}
+Golub GH, Heath M, Wahba G (1979).
+\newblock \enquote{Generalized {Cross}-{Validation} as a {Method} for
+  {Choosing} a {Good} {Ridge} {Parameter}.}
+\newblock \emph{Technometrics}, \textbf{21}(2), 215--223.
+\newblock ISSN 0040-1706.
+\newblock \doi{10.1080/00401706.1979.10489751}.
+\newblock
+  \urlprefix\url{https://www.tandfonline.com/doi/abs/10.1080/00401706.1979.10489751}.
+
+\bibitem[{Harville(1977)}]{harville_maximum_1977}
+Harville DA (1977).
+\newblock \enquote{Maximum {Likelihood} {Approaches} to {Variance} {Component}
+  {Estimation} and to {Related} {Problems}.}
+\newblock \emph{Journal of the American Statistical Association},
+  \textbf{72}(358), 320--338.
+\newblock ISSN 0162-1459.
+\newblock \doi{10.2307/2286796}.
+\newblock \urlprefix\url{http://www.jstor.org/stable/2286796}.
+
+\bibitem[{Hastie \emph{et~al.}(2009)Hastie, Tibshirani, and
+  Friedman}]{hastie_elements_2009}
+Hastie T, Tibshirani R, Friedman J (2009).
+\newblock \emph{The {Elements} of {Statistical} {Learning}: {Data} {Mining},
+  {Inference}, and {Prediction}, {Second} {Edition}}.
+\newblock Springer {Series} in {Statistics}, 2 edition. Springer-Verlag, New
+  York.
+\newblock ISBN 978-0-387-84857-0.
+\newblock \urlprefix\url{//www.springer.com/fr/book/9780387848570}.
+
+\bibitem[{Hurvich and Tsai(1989)}]{hurvich_regression_1989}
+Hurvich CM, Tsai CL (1989).
+\newblock \enquote{Regression and time series model selection in small
+  samples.}
+\newblock \emph{Biometrika}, \textbf{76}(2), 297--307.
+\newblock ISSN 0006-3444.
+\newblock \doi{10.1093/biomet/76.2.297}.
+\newblock
+  \urlprefix\url{https://academic.oup.com/biomet/article/76/2/297/265326}.
+
+\bibitem[{{Hurvich Clifford M.} \emph{et~al.}(2002){Hurvich Clifford M.},
+  {Simonoff Jeffrey S.}, and {Tsai
+  Chih‐Ling}}]{hurvich_clifford_m._smoothing_2002}
+{Hurvich Clifford M}, {Simonoff Jeffrey S}, {Tsai Chih‐Ling} (2002).
+\newblock \enquote{Smoothing parameter selection in nonparametric regression
+  using an improved {Akaike} information criterion.}
+\newblock \emph{Journal of the Royal Statistical Society: Series B (Statistical
+  Methodology)}, \textbf{60}(2), 271--293.
+\newblock ISSN 1369-7412.
+\newblock \doi{10.1111/1467-9868.00125}.
+\newblock
+  \urlprefix\url{https://rss.onlinelibrary.wiley.com/doi/abs/10.1111/1467-9868.00125}.
+
+\bibitem[{Lee \emph{et~al.}(2006)Lee, Nelder, and
+  Pawitan}]{lee_generalized_2006}
+Lee, Nelder, Pawitan (2006).
+\newblock \enquote{Generalized {Linear} {Models} with {Random} {Effects}:
+  {Unified} {Analysis} via {H}-likelihood.}
+
+\bibitem[{Lin(1997)}]{lin_variance_1997}
+Lin X (1997).
+\newblock \enquote{Variance component testing in generalised linear models with
+  random effects.}
+\newblock \emph{Biometrika}, \textbf{84}(2), 309--326.
+\newblock ISSN 0006-3444.
+\newblock \doi{10.1093/biomet/84.2.309}.
+\newblock
+  \urlprefix\url{https://academic.oup.com/biomet/article/84/2/309/233889}.
+
+\bibitem[{Lin and Zhang(1999)}]{lin_inference_1999}
+Lin X, Zhang D (1999).
+\newblock \enquote{Inference in generalized additive mixed modelsby using
+  smoothing splines.}
+\newblock \emph{Journal of the Royal Statistical Society: Series B (Statistical
+  Methodology)}, \textbf{61}(2), 381--400.
+\newblock ISSN 1467-9868.
+\newblock \doi{10.1111/1467-9868.00183}.
+\newblock
+  \urlprefix\url{https://rss.onlinelibrary.wiley.com/doi/abs/10.1111/1467-9868.00183}.
+
+\bibitem[{Lindstrom and Bates(1988)}]{lindstrom_newtonraphson_1988}
+Lindstrom MJ, Bates DM (1988).
+\newblock \enquote{Newton—{Raphson} and {EM} {Algorithms} for {Linear}
+  {Mixed}-{Effects} {Models} for {Repeated}-{Measures} {Data}.}
+\newblock \emph{Journal of the American Statistical Association},
+  \textbf{83}(404), 1014--1022.
+\newblock ISSN 0162-1459.
+\newblock \doi{10.1080/01621459.1988.10478693}.
+\newblock \urlprefix\url{https://doi.org/10.1080/01621459.1988.10478693}.
+
+\bibitem[{Liu \emph{et~al.}(2007)Liu, Lin, and Ghosh}]{liu_semiparametric_2007}
+Liu D, Lin X, Ghosh D (2007).
+\newblock \enquote{Semiparametric regression of multidimensional genetic
+  pathway data: least-squares kernel machines and linear mixed models.}
+\newblock \emph{Biometrics}, \textbf{63}(4), 1079--1088.
+\newblock ISSN 0006-341X.
+\newblock \doi{10.1111/j.1541-0420.2007.00799.x}.
+
+\bibitem[{Liu and Coull(2017)}]{liu_robust_2017}
+Liu JZ, Coull B (2017).
+\newblock \enquote{Robust {Hypothesis} {Test} for {Nonlinear} {Effect} with
+  {Gaussian} {Processes}.}
+\newblock \emph{arXiv:1710.01406 [stat]}.
+\newblock \urlprefix\url{http://arxiv.org/abs/1710.01406}.
+
+\bibitem[{Maity and Lin(2011)}]{maity_powerful_2011}
+Maity A, Lin X (2011).
+\newblock \enquote{Powerful tests for detecting a gene effect in the presence
+  of possible gene-gene interactions using garrote kernel machines.}
+\newblock \emph{Biometrics}, \textbf{67}(4), 1271--1284.
+\newblock ISSN 1541-0420.
+\newblock \doi{10.1111/j.1541-0420.2011.01598.x}.
+
+\bibitem[{Pawitan(2001)}]{pawitan_all_2001}
+Pawitan (2001).
+\newblock \emph{In {All} {Likelihood}: {Statistical} {Modelling} and
+  {Inference} {Using} {Likelihood}}.
+\newblock Oxford University Press, Oxford, New York.
+\newblock ISBN 978-0-19-850765-9.
+
+\bibitem[{Press(2006)}]{press_gaussian_2006}
+Press TM (2006).
+\newblock \enquote{Gaussian {Processes} for {Machine} {Learning}.}
+\newblock
+  \urlprefix\url{https://mitpress.mit.edu/books/gaussian-processes-machine-learning}.
+
+\bibitem[{Reiss and Ogden(2009)}]{reiss_smoothing_2009}
+Reiss PT, Ogden RT (2009).
+\newblock \enquote{Smoothing {Parameter} {Selection} for a {Class} of
+  {Semiparametric} {Linear} {Models}.}
+\newblock \emph{JRSS-B}, \textbf{71}(2).
+
+\bibitem[{Stein(1999)}]{stein_interpolation_1999}
+Stein ML (1999).
+\newblock \emph{Interpolation of {Spatial} {Data}: {Some} {Theory} for
+  {Kriging}}.
+\newblock Springer {Series} in {Statistics}. Springer-Verlag, New York.
+\newblock ISBN 978-0-387-98629-6.
+\newblock \urlprefix\url{//www.springer.com/us/book/9780387986296}.
+
+\bibitem[{Wahba(1985)}]{wahba_comparison_1985}
+Wahba G (1985).
+\newblock \enquote{A {Comparison} of {GCV} and {GML} for {Choosing} the
+  {Smoothing} {Parameter} in the {Generalized} {Spline} {Smoothing} {Problem}.}
+\newblock \emph{The Annals of Statistics}, \textbf{13}(4), 1378--1402.
+\newblock ISSN 0090-5364, 2168-8966.
+\newblock \doi{10.1214/aos/1176349743}.
+\newblock \urlprefix\url{https://projecteuclid.org/euclid.aos/1176349743}.
+
+\bibitem[{Wahba(1990)}]{wahba_spline_1990}
+Wahba G (1990).
+\newblock \emph{Spline {Models} for {Observational} {Data}}.
+\newblock {CBMS}-{NSF} {Regional} {Conference} {Series} in {Applied}
+  {Mathematics}. Society for Industrial and Applied Mathematics.
+\newblock ISBN 978-0-89871-244-5.
+\newblock \doi{10.1137/1.9781611970128}.
+\newblock
+  \urlprefix\url{https://epubs.siam.org/doi/book/10.1137/1.9781611970128}.
+
+\bibitem[{Wecker and Ansley(1983)}]{wecker_signal_1983}
+Wecker WE, Ansley CF (1983).
+\newblock \enquote{The {Signal} {Extraction} {Approach} to {Nonlinear}
+  {Regression} and {Spline} {Smoothing}.}
+\newblock \emph{Journal of the American Statistical Association},
+  \textbf{78}(381), 81--89.
+\newblock ISSN 0162-1459.
+\newblock \doi{10.1080/01621459.1983.10477935}.
+\newblock
+  \urlprefix\url{https://amstat.tandfonline.com/doi/abs/10.1080/01621459.1983.10477935}.
+
+\bibitem[{Zhan \emph{et~al.}(2017)Zhan, Plantinga, Zhao, and
+  Wu}]{zhan_fast_2017}
+Zhan X, Plantinga A, Zhao N, Wu MC (2017).
+\newblock \enquote{A fast small-sample kernel independence test for microbiome
+  community-level association analysis.}
+\newblock \emph{Biometrics}, \textbf{73}(4), 1453--1463.
+\newblock ISSN 0006-341X.
+\newblock \doi{10.1111/biom.12684}.
+\newblock
+  \urlprefix\url{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5592124/}.
+
+\end{thebibliography}
