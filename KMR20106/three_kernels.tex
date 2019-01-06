@@ -1,0 +1,213 @@
+\documentclass[11pt]{report}
+\usepackage{scribe,graphicx,graphics}
+%% my pkgs
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage{enumerate}
+\usepackage{pbox}
+\usepackage{xcolor}
+\DeclareMathAlphabet\mathbfcal{OMS}{cmsy}{b}{n}
+\usepackage{"./macro/GrandMacros"}
+\usepackage{"./macro/Macro_BIO235"}
+\def\bI{{\bf I}}
+\def\bX{{\bf X}}
+\def\by{{\bf y}}
+\def\bzero{{\bf 0}}
+\def\bone{{\bf 1}}
+\def\bbeta{{\boldsymbol \beta}}
+\def\balpha{{\boldsymbol \alpha}}
+\def\btheta{{\boldsymbol \theta}}
+\course{KMR} 	
+\coursetitle{Estimate Multiple Kernel Effects}	
+\semester{01/06/2019}
+\lecturer{} % Due Date: {\bf Sat, Sept 29 2018}}
+\lecturetitle{Estimate Multiple Kernel Effects}
+\lecturenumber{0}   
+\lecturedate{}    
+
+
+% Insert your name here!
+\scribe{Author: Wenying Deng}
+
+\begin{document}
+\setcounter{equation}{0}
+\renewcommand{\theequation}{\arabic{equation}}
+\maketitle
+
+\section{Single Kernel}
+Let's start by estimating single kernel effect. The objective function is, 
+\begin{align}
+\lVert \by-\bX \bbeta -K_1 \balpha_1 \rVert^2 + \lambda \balpha_1^\top K_1 \balpha_1. \label{single}
+\end{align}
+Differentiating \eqref{single} with respect to $\bbeta$ and $\balpha_1$, we obtain, 
+\begin{align}
+\hat{\bbeta}&=(\bX^\top \bX)^{-1}\bX^\top (\by-K_1 \hat{\balpha}_1),  \label{single_beta}\\
+\hat{\balpha}_1&=(K_1+\lambda \bI)^{-1}(\by-\bX \hat{\bbeta}). \label{single_alpha1}
+\end{align}
+Substituting \eqref{single_alpha1} into \eqref{single_beta}, we get 
+\begin{align*}
+\hat{\bbeta}&=\{\bX^\top [K_1(K_1+\lambda \bI)^{-1}-\bI]\bX \}^{-1}\bX^\top [K_1(K_1+\lambda \bI)^{-1}-\bI]\by \nonumber \\
+&=\{\bX^\top (\bI+\lambda^{-1}K_1)^{-1} \bX \}^{-1}\bX^\top (\bI+\lambda^{-1}K_1)^{-1}\by \tag{Woodbury matrix identity} \\
+&=\{\bX^\top V_1^{-1} \bX \}^{-1}\bX^\top V_1^{-1}\by,
+\end{align*}
+where we denote $V_1=\bI+\lambda^{-1}K_1$ and therefore $(\lambda V_1)^{-1}=(K_1+\lambda \bI)^{-1}$. 
+$${\color{blue}(\bI + \lambda^{-1} K)^{-1}=\bI -K(K+\lambda \bI)^{-1}}$$
+And finally,
+\begin{align}
+{\color{red}\hat{\balpha}_1}=\{\lambda V_1-\bX (\bX^\top \bX)^{-1}\bX^\top K_1\}^{-1}\{\bI-\bX (\bX^\top \bX)^{-1}\bX^\top \}\by. \label{single_alpha1_final}
+\end{align}
+
+\section{Two Kernels}
+Now we move on to estimating multiple kernel effects. Here we consider two kernel effects, and the objective function becomes, 
+\begin{align}
+\lVert \by-\bX \bbeta -K_1 \balpha_1 -K_2 \balpha_2 \rVert^2 + \lambda \balpha_1^\top K_1 \balpha_1+ \lambda \balpha_2^\top K_2 \balpha_2. \label{mult}
+\end{align}
+Similarly, differentiating \eqref{mult} with respect to $\bbeta$, $\balpha_1$ and $\balpha_2$, we obtain, 
+\begin{align}
+\hat{\bbeta}&=(\bX^\top \bX)^{-1}\bX^\top (\by-K_1 \hat{\balpha}_1-K_2 \hat{\balpha}_2),  \label{mult_beta}\\
+\hat{\balpha}_1&=(K_1+\lambda \bI)^{-1}(\by-\bX \hat{\bbeta}-K_2 \hat{\balpha}_2)=(\lambda V_1)^{-1}(\by-\bX \hat{\bbeta}-K_2 \hat{\balpha}_2), \label{mult_alpha1}\\
+\hat{\balpha}_2&=(K_2+\lambda \bI)^{-1}(\by-\bX \hat{\bbeta}-K_1 \hat{\balpha}_1)=(\lambda V_2)^{-1}(\by-\bX \hat{\bbeta}-K_1 \hat{\balpha}_1). \label{mult_alpha2}
+\end{align}
+Plugging \eqref{mult_alpha2} into \eqref{mult_beta}, we obtain,
+\begin{align}
+\hat{\bbeta}=\{\bX^\top V_2^{-1} \bX \}^{-1}\bX^\top V_2^{-1}(\by-K_1 \hat{\balpha}_1). \label{beta_hat}
+\end{align}
+Plugging \eqref{mult_alpha2} into \eqref{mult_alpha1}, we obtain,
+\begin{align}
+\hat{\balpha}_1&=\{\lambda^2 V_2 V_1+K_1-\lambda V_2 K_1\}^{-1}(\by-\bX \hat{\bbeta}) \nonumber \\
+&=W_{21}^{-1}(\by-\bX \hat{\bbeta}) \nonumber \\
+&=W_{21}^{-1}\big\{\by-\bX \{\bX^\top V_2^{-1} \bX \}^{-1}\bX^\top V_2^{-1}(\by-K_1 \hat{\balpha}_1)\big\}, \tag{plug in \eqref{beta_hat}}
+\end{align}
+\[\downarrow\]
+\begin{align}
+{\color{red}\hat{\balpha}_1}=\big\{W_{21}-\bX \{\bX^\top V_2^{-1} \bX \}^{-1}\bX^\top V_2^{-1} K_1\big\}^{-1} \big\{\bI-\bX \{\bX^\top V_2^{-1} \bX \}^{-1}\bX^\top V_2^{-1}\big\}\by.
+\end{align}
+where we denote \[W_{21}=\lambda^2 V_2 V_1+K_1-\lambda V_2 K_1.\]
+
+\section{Three Kernels}
+We consider three kernel effects, and the objective function becomes, 
+\begin{align}
+\lVert \by-\bX \bbeta -K_1 \balpha_1 -K_2 \balpha_2 -K_3 \balpha_3\rVert^2 + \lambda \balpha_1^\top K_1 \balpha_1+ \lambda \balpha_2^\top K_2 \balpha_2+ \lambda \balpha_3^\top K_3 \balpha_3. \label{three}
+\end{align}
+Similarly, differentiating \eqref{three} with respect to $\bbeta$, $\balpha_1$, $\balpha_2$ and $\balpha_3$, we obtain, 
+\begin{align}
+\hat{\bbeta}&=(\bX^\top \bX)^{-1}\bX^\top (\by-K_1 \hat{\balpha}_1-K_2 \hat{\balpha}_2-K_3 \hat{\balpha}_3),  \label{three_beta}\\
+\hat{\balpha}_1&=(\lambda V_1)^{-1}(\by-\bX \hat{\bbeta}-K_2 \hat{\balpha}_2-K_3 \hat{\balpha}_3), \label{three_alpha1}\\
+\hat{\balpha}_2&=(\lambda V_2)^{-1}(\by-\bX \hat{\bbeta}-K_1 \hat{\balpha}_1-K_3 \hat{\balpha}_3), \label{three_alpha2}\\
+\hat{\balpha}_3&=(\lambda V_3)^{-1}(\by-\bX \hat{\bbeta}-K_1 \hat{\balpha}_1-K_2 \hat{\balpha}_2). \label{three_alpha3}
+\end{align}
+Plugging \eqref{three_alpha2} into \eqref{three_alpha3}, we obtain,
+\begin{align}
+\hat{\balpha}_3=W_{23}^{-1}\big\{\by-\bX \hat{\bbeta}-K_1 \hat{\balpha}_1\big\}, \label{three_alpha3_hat}
+\end{align}
+where we denote \[W_{23}=\lambda^2 V_2 V_3+K_3-\lambda V_2 K_3.\]
+Plugging \eqref{three_alpha2} into \eqref{three_beta}, we obtain,
+\begin{align}
+\bX^\top (\lambda V_2)^{-1}\bX \hat{\bbeta}=\bX^\top (\lambda V_2)^{-1}[\by-K_1 \hat{\balpha}_1-K_3 \hat{\balpha}_3]. \label{three_beta_hat}
+\end{align}
+Plugging \eqref{three_alpha3_hat} into \eqref{three_beta_hat}, we obtain,
+\begin{align}
+\hat{\bbeta}=\{\bX^\top (\lambda V_2)^{-1}[\bI-K_3 W_{23}^{-1}]\bX \}^{-1}\bX^\top (\lambda V_2)^{-1}[\bI-K_3 W_{23}^{-1}][\by-K_1 \hat{\balpha}_1]. \label{three_beta_final}
+\end{align}
+Plugging \eqref{three_alpha2}, \eqref{three_alpha3_hat} and \eqref{three_beta_final} subsequently into \eqref{three_alpha1}, we obtain,
+\begin{align*}
+&\Big\{[W_{21}-K_3 W_{21}^{-1}K_1]-\gamma \bX \{\bX^\top (\lambda V_2)^{-1}\gamma \bX \}^{-1}\bX^\top (\lambda V_2)^{-1}\gamma K_1\Big\} \hat{\balpha}_1\\
+=&\gamma \{\bI-\bX \{\bX^\top (\lambda V_2)^{-1}\gamma \bX \}^{-1}\bX^\top (\lambda V_2)^{-1}\gamma\}\by,
+\end{align*}
+where we denote \[\gamma=[\bI-K_3 W_{23}^{-1}].\]
+\[\downarrow\]
+\begin{align}
+{\color{red}\hat{\balpha}_1}=&\Big\{[W_{21}-K_3 W_{21}^{-1}K_1]-\gamma \bX \{\bX^\top (\lambda V_2)^{-1}\gamma \bX \}^{-1}\bX^\top (\lambda V_2)^{-1} \gamma K_1\Big\}^{-1}\nonumber \\
+&\qquad \qquad \cdot \gamma \{\bI-\bX \{\bX^\top (\lambda V_2)^{-1}\gamma \bX \}^{-1}\bX^\top (\lambda V_2)^{-1}\gamma\}\by.
+\end{align}
+
+\section{Summary}
+Finally, if we put all those $\hat{\balpha}_1$s together, 
+\begin{align*}
+{\color{red}\hat{\balpha}_1}=&\{\lambda V_1-\bX (\bX^\top \bX)^{-1}\bX^\top K_1\}^{-1}\{\bI-\bX (\bX^\top \bX)^{-1}\bX^\top \}\by, \tag{single kernel}\\
+{\color{red}\hat{\balpha}_1}=&\big\{W_{21}-\bX \{\bX^\top V_2^{-1} \bX \}^{-1}\bX^\top V_2^{-1} K_1\big\}^{-1} \big\{\bI-\bX \{\bX^\top V_2^{-1} \bX \}^{-1}\bX^\top V_2^{-1}\big\}\by, \tag{two kernels}\\
+{\color{red}\hat{\balpha}_1}=&\Big\{[W_{21}-K_3 W_{21}^{-1}K_1]-\gamma \bX \{\bX^\top (\lambda V_2)^{-1}\gamma \bX \}^{-1}\bX^\top (\lambda V_2)^{-1} \gamma K_1\Big\}^{-1}\nonumber \\
+&\qquad \qquad \cdot \gamma \{\bI-\bX \{\bX^\top (\lambda V_2)^{-1}\gamma \bX \}^{-1}\bX^\top (\lambda V_2)^{-1}\gamma\}\by. \tag{three kernels}
+\end{align*}
+where,
+\begin{align*}
+V_1&=\bI+\lambda^{-1}K_1, \\
+V_2&=\bI+\lambda^{-1}K_2, \\
+W_{21}&=\lambda^2 V_2 V_1+K_1-\lambda V_2 K_1,\\
+W_{23}&=\lambda^2 V_2 V_3+K_3-\lambda V_2 K_3,\\
+\gamma&=[\bI-K_3 W_{23}^{-1}].
+\end{align*}
+
+
+
+\newpage
+\section{Alternative for Two Kernels}
+Following the same calculation as constructing block matrices. Letting
+\begin{align*}
+\underset{n\times (p+n+n)}{K_3}=[\underset{n\times p}{X}, \underset{n\times n}{K_1}, \underset{n\times n}{K_2}], \quad
+\underset{(p+n+n) \times (p+n+n)}{K_4}=\begin{bmatrix}
+\underset{p\times p}{\bzero} & \bzero &\bzero \\ 
+\bzero & K_1 & \bzero\\ 
+\bzero & \bzero & K_2
+\end{bmatrix}, \quad
+\btheta=\begin{bmatrix}
+\underset{p\times 1}{\bbeta} \\ 
+\underset{n\times 1}{\balpha_1} \\ 
+\underset{n\times 1}{\balpha_2}
+\end{bmatrix}.
+\end{align*}
+Then \eqref{mult} becomes
+\begin{align}
+\lVert \by-K_3 \btheta \rVert^2 + \lambda \btheta^\top K_4 \btheta. \label{matrix}
+\end{align}
+Differentiating \eqref{matrix} with respect to $\btheta$, we obtain, 
+\begin{align*}
+&(\lambda K_4+K_3^\top K_3)\btheta = K_3^\top \by,\\
+&\btheta = (\lambda K_4+K_3^\top K_3)^{-1}K_3^\top \by.
+\end{align*}
+Specifically,
+\begin{align*}
+&\Big\{\lambda \begin{bmatrix}
+\underset{p\times p}{\bzero} & \bzero &\bzero \\ 
+\bzero & K_1 & \bzero\\ 
+\bzero & \bzero & K_2
+\end{bmatrix}+\begin{bmatrix}
+\bX^\top \bX & \bX^\top K_1 &\bX^\top K_2 \\ 
+K_1^\top X & K_1^\top K_1 & K_1^\top K_2\\ 
+K_2^\top X & K_2^\top K_1 & K_2^\top K_2
+\end{bmatrix} \Big\} \begin{bmatrix}
+\bbeta \\ 
+\balpha_1 \\ 
+\balpha_2
+\end{bmatrix}\\
+=&\begin{bmatrix}
+\bX^\top \bX & \bX^\top K_1 &\bX^\top K_2 \\ 
+K_1 X & K_1( K_1+\lambda \bI) & K_1 K_2\\ 
+K_2 X & K_2 K_1 & K_2( K_2+\lambda \bI)
+\end{bmatrix}\begin{bmatrix}
+\bbeta \\ 
+\balpha_1 \\ 
+\balpha_2
+\end{bmatrix}\\
+=&\begin{bmatrix}
+\bX^\top \by \\ 
+K_1 \by \\ 
+K_2 \by
+\end{bmatrix},\\
+\begin{bmatrix}
+\hat{\bbeta} \\ 
+\hat{\balpha}_1 \\ 
+\hat{\balpha}_2
+\end{bmatrix}=&\begin{bmatrix}
+\bX^\top \bX & \bX^\top K_1 &\bX^\top K_2 \\ 
+K_1 X & K_1( K_1+\lambda \bI) & K_1 K_2\\ 
+K_2 X & K_2 K_1 & K_2( K_2+\lambda \bI)
+\end{bmatrix}^{-1}\begin{bmatrix}
+\bX^\top \by \\ 
+K_1 \by \\ 
+K_2 \by
+\end{bmatrix}.
+\end{align*}
+
+\end{document}
